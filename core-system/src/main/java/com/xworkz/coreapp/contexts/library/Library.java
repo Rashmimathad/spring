@@ -1,0 +1,15 @@
+package com.xworkz.coreapp.contexts.library;
+
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+@Data
+@Component
+public class Library {
+
+    @Value("1")
+    private int libraryId;
+    @Value("Central Library")
+    private String libraryName;
+
+}
