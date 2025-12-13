@@ -274,21 +274,21 @@ public class CoreConfiguration {
     public List<InvoiceDTO> getInvoicesInfo(){
         List<InvoiceDTO> invoiceDTOList = new ArrayList<>();
 
-        invoiceDTOList.add(new InvoiceDTO(1, 101, "Rohit Sharma", 2500.00, 125.00, "2025-01-10", "2025-01-20", "Paid"));
-        invoiceDTOList.add(new InvoiceDTO(2, 102, "Anjali Mehta", 4800.50, 240.00, "2025-01-12", "2025-01-22", "Pending"));
-        invoiceDTOList.add(new InvoiceDTO(3, 103, "Suresh Kumar", 1299.99, 65.00, "2025-01-14", "2025-01-24", "Paid"));
-        invoiceDTOList.add(new InvoiceDTO(4, 104, "Priya Singh", 7999.00, 400.00, "2025-01-15", "2025-01-25", "Overdue"));
-        invoiceDTOList.add(new InvoiceDTO(5, 105, "Mohan Das", 3499.50, 175.00, "2025-01-16", "2025-01-26", "Paid"));
-        invoiceDTOList.add(new InvoiceDTO(6, 106, "Harsh Patel", 999.00, 50.00, "2025-01-18", "2025-01-28", "Pending"));
-        invoiceDTOList.add(new InvoiceDTO(7, 107, "Riya Sharma", 5600.00, 280.00, "2025-01-19", "2025-01-29", "Paid"));
-        invoiceDTOList.add(new InvoiceDTO(8, 108, "Aman Verma", 1999.00, 100.00, "2025-01-20", "2025-01-30", "Cancelled"));
-        invoiceDTOList.add(new InvoiceDTO(9, 109, "Sneha Rao", 4500.75, 225.00, "2025-01-21", "2025-01-31", "Pending"));
-        invoiceDTOList.add(new InvoiceDTO(10, 110, "Vikas Gupta", 1500.00, 75.00, "2025-01-22", "2025-02-01", "Overdue"));
-        invoiceDTOList.add(new InvoiceDTO(11, 111, "Pooja Nair", 7800.20, 390.00, "2025-01-23", "2025-02-02", "Paid"));
-        invoiceDTOList.add(new InvoiceDTO(12, 112, "Karan Kapoor", 3200.00, 160.00, "2025-01-24", "2025-02-03", "Pending"));
-        invoiceDTOList.add(new InvoiceDTO(13, 113, "Divya Jain", 25000.00, 1250.00, "2025-01-25", "2025-02-04", "Paid"));
-        invoiceDTOList.add(new InvoiceDTO(14, 114, "Rajesh R", 850.00, 42.00, "2025-01-26", "2025-02-05", "Cancelled"));
-        invoiceDTOList.add(new InvoiceDTO(15, 115, "Lakshmi Priya", 6700.40, 335.00, "2025-01-27", "2025-02-06", "Pending"));
+        invoiceDTOList.add(new InvoiceDTO(1,101,"Rohit Sharma",2500.00,125.00,"2025-01-10","2025-01-20", "Paid"));
+        invoiceDTOList.add(new InvoiceDTO(2,102,"Anjali Mehta",4800.50,240.00,"2025-01-12","2025-01-22", "Pending"));
+        invoiceDTOList.add(new InvoiceDTO(3,103,"Suresh Kumar",1299.99,65.00,"2025-01-14","2025-01-24", "Paid"));
+        invoiceDTOList.add(new InvoiceDTO(4,104,"Priya Singh",7999.00,400.00,"2025-01-15","2025-01-25", "Overdue"));
+        invoiceDTOList.add(new InvoiceDTO(5,105,"Mohan Das",3499.50,175.00,"2025-01-16","2025-01-26", "Paid"));
+        invoiceDTOList.add(new InvoiceDTO(6,106,"Harsh Patel",999.00,50.00,"2025-01-18","2025-01-28", "Pending"));
+        invoiceDTOList.add(new InvoiceDTO(7,107,"Riya Sharma",5600.00,280.00,"2025-01-19","2025-01-29", "Paid"));
+        invoiceDTOList.add(new InvoiceDTO(8,108,"Aman Verma",1999.00, 100.00,"2025-01-20","2025-01-30", "Cancelled"));
+        invoiceDTOList.add(new InvoiceDTO(9,109,"Sneha Rao",4500.75,225.00,"2025-01-21","2025-01-31", "Pending"));
+        invoiceDTOList.add(new InvoiceDTO(10,110,"Vikas Gupta",1500.00,75.00,"2025-01-22","2025-02-01", "Overdue"));
+        invoiceDTOList.add(new InvoiceDTO(11,111,"Pooja Nair",7800.20,390.00,"2025-01-23","2025-02-02", "Paid"));
+        invoiceDTOList.add(new InvoiceDTO(12,112,"Karan Kapoor",3200.00,160.00,"2025-01-24","2025-02-03", "Pending"));
+        invoiceDTOList.add(new InvoiceDTO(13,113,"Divya Jain",25000.00,1250.00,"2025-01-25","2025-02-04", "Paid"));
+        invoiceDTOList.add(new InvoiceDTO(14,114,"Rajesh R",850.00,42.00,"2025-01-26","2025-02-05", "Cancelled"));
+        invoiceDTOList.add(new InvoiceDTO(15,115,"Lakshmi Priya",6700.40,335.00,"2025-01-27","2025-02-06", "Pending"));
 
         return invoiceDTOList;
     }
