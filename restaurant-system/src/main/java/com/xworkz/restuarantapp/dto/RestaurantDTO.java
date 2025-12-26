@@ -2,13 +2,15 @@ package com.xworkz.restuarantapp.dto;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
-public class RestaurantDTO {
+public class RestaurantDTO implements Serializable {
 
     private int id;
     private String restaurantName;

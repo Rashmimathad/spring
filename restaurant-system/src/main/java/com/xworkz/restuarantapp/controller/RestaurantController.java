@@ -54,7 +54,4 @@ public class RestaurantController {
         }
         return "Search.jsp";
     }
-
-
-
 }
