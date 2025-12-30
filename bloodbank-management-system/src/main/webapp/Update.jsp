@@ -22,7 +22,7 @@
 <body class="bg-body-tertiary">
 <nav class="navbar navbar-expand-lg bg-body-secondary border-bottom border-body" style="height: 60px;">
     <div class="container-fluid">
-        <img src="../resources/static/images/logo.jpg" alt="logo">
+        <img src="<%= request.getContextPath() %>/resources/images/logo.jpg" alt="logo" style="height:55px;width:110px;">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,6 +30,7 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav nav-pills ms-auto">
+                <li class="nav-item"><a class="nav-link active text-white  fw-bold m-1  bg-danger" href="index">Home</a></li>
                 <li class="nav-item"><a class="nav-link active text-white  fw-bold m-1  bg-danger" href="#">Find a Drive</a></li>
                 <li class="nav-item"><a class="nav-link active text-white  fw-bold m-1  bg-danger" href="signUp">Register</a></li>
                 <li class="nav-item"><a class="nav-link active text-white  fw-bold m-1  bg-danger" href="searchPage">Search</a></li>

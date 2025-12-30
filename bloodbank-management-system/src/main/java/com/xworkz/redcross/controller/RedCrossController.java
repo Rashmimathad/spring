@@ -26,6 +26,11 @@ public class RedCrossController {
     }
 
 
+    @RequestMapping("/index")
+    public String getHomePage(){
+        return "index.jsp";
+    }
+
     @RequestMapping("/signUp")
     public String getRegPage(){
         return "RegistrationPage.jsp";
