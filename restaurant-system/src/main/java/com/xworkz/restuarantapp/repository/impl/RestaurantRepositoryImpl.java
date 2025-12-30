@@ -4,6 +4,10 @@ import com.xworkz.restuarantapp.constants.DBConstants;
 import com.xworkz.restuarantapp.dto.RestaurantDTO;
 import com.xworkz.restuarantapp.repository.RestaurantRepository;
 import lombok.SneakyThrows;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -24,36 +28,46 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 
     @Override
     public boolean save(RestaurantDTO dto) {
-        String query = "INSERT INTO restaurant_table" +
-                "(restaurant_name, owner_name, contact_number, email, restaurant_type, " +
-                "restaurant_address, city, restaurant_timings, food_type, restaurant_ratings) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//        String query = "INSERT INTO restaurant_table" +
+//                "(restaurant_name, owner_name, contact_number, email, restaurant_type, " +
+//                "restaurant_address, city, restaurant_timings, food_type, restaurant_ratings) " +
+//                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//
+//        try (
+//                Connection connection = DriverManager.getConnection(DBConstants.DB.getUrl(),DBConstants.DB.getUserName(),DBConstants.DB.getPassword());
+//                PreparedStatement ps = connection.prepareStatement(query)
+//        ) {
+//
+//            ps.setString(1, dto.getRestaurantName());
+//            ps.setString(2, dto.getOwnerName());
+//            ps.setLong(3, dto.getContactNumber());
+//            ps.setString(4, dto.getEmailId());
+//            ps.setString(5, dto.getRestaurantType());
+//            ps.setString(6, dto.getAddress());
+//            ps.setString(7, dto.getCity());
+//            ps.setString(8, dto.getRestaurantTimings());
+//            ps.setString(9, dto.getFoodType());
+//            ps.setDouble(10, dto.getRating());
+//tr
+//            int rowsAffected = ps.executeUpdate();
+//
+//            return rowsAffected > 0;
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return false;
 
-        try (
-                Connection connection = DriverManager.getConnection(DBConstants.DB.getUrl(),DBConstants.DB.getUserName(),DBConstants.DB.getPassword());
-                PreparedStatement ps = connection.prepareStatement(query)
-        ) {
-
-            ps.setString(1, dto.getRestaurantName());
-            ps.setString(2, dto.getOwnerName());
-            ps.setLong(3, dto.getContactNumber());
-            ps.setString(4, dto.getEmailId());
-            ps.setString(5, dto.getRestaurantType());
-            ps.setString(6, dto.getAddress());
-            ps.setString(7, dto.getCity());
-            ps.setString(8, dto.getRestaurantTimings());
-            ps.setString(9, dto.getFoodType());
-            ps.setDouble(10, dto.getRating());
-
-            int rowsAffected = ps.executeUpdate();
-
-            return rowsAffected > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
+        boolean isSaved = false;
+        Configuration configuration =new Configuration();
+      SessionFactory sessionFactory= configuration.configure().addAnnotatedClass(RestaurantDTO.class).buildSessionFactory();
+     Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(dto);
+        transaction.commit();
+        isSaved=true;
+        return isSaved;
     }
 
     @Override

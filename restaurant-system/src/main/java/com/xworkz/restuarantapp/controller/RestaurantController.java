@@ -23,6 +23,10 @@ public class RestaurantController {
         System.out.println("RestaurantController object created");
     }
 
+    @RequestMapping("/index")
+    public String getHomePage(){
+        return "index.jsp";
+    }
 
     @PostMapping("/addRestaurant")
     public String addRestaurant(RestaurantDTO restaurantDTO){

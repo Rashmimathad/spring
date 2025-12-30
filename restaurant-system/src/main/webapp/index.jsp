@@ -10,7 +10,7 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-danger border-bottom border-body" style="height: 60px;">
     <div class="container-fluid">
-        <img src="../resources/static/images/logo.jpg" alt="logo">
+        <img src="<%= request.getContextPath() %>/resources/images/logo.png" alt="logo" style="height:50px;width:50px;">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

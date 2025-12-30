@@ -9,25 +9,24 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-danger border-bottom border-body" style="height: 60px;">
-        <div class="container-fluid">
-            <img src="../resources/static/images/logo.jpg" alt="logo">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<nav class="navbar navbar-expand-lg bg-danger border-bottom border-body" style="height: 60px;">
+    <div class="container-fluid">
+        <img src="<%= request.getContextPath() %>/resources/images/logo.png" alt="logo" style="height:50px;width:50px;">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav nav-pills ms-auto">
-                    <li class="nav-item"><a class="nav-link active text-dark  fw-bold m-1  bg-body-tertiary" href="index">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active text-dark  fw-bold m-1  bg-body-tertiary" href="registerpage">Register</a></li>
-                    <li class="nav-item"><a class="nav-link active text-dark  fw-bold m-1  bg-body-tertiary" href="#">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link active text-dark  fw-bold m-1  bg-body-tertiary" href="#">Contact</a></li>
-                </ul>
-            </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav nav-pills ms-auto">
+                <li class="nav-item"><a class="nav-link active text-dark  fw-bold m-1  bg-body-tertiary" href="index">Home</a></li>
+                <li class="nav-item"><a class="nav-link active text-dark  fw-bold m-1  bg-body-tertiary" href="registerpage">Register</a></li>
+                <li class="nav-item"><a class="nav-link active text-dark  fw-bold m-1  bg-body-tertiary" href="searchPage">Search</a></li>
+                <li class="nav-item"><a class="nav-link active text-dark  fw-bold m-1  bg-body-tertiary" href="#">Contact</a></li>
+            </ul>
         </div>
-    </nav>
-
+    </div>
+</nav>
     <div class="d-flex justify-content-center align-items-center" style="height:150vh;">
         <div class="card p-2 bg-body-secondary bg-opacity-75 border border-dark border-2 rounded" style="width: 45rem;">
             <div class="card-body">
