@@ -36,7 +36,10 @@ while(appRunning) {
     System.out.println("12. Get Event Name by Manager Name");
     System.out.println("13. Get Location By Time");
     System.out.println("14. Get All Events");
-    System.out.println("15. Exit");
+    System.out.println("15. Update Event Manager by event name and event Time");
+    System.out.println("16. update Event Time by Event Name");
+    System.out.println("17. Delete By Event Name");
+    System.out.println("18. Exit");
     System.out.println();
     System.out.print("Enter Choice : ");
     int ch = sc.nextInt();
@@ -203,7 +206,36 @@ while(appRunning) {
             System.out.println("---------");
             break;
 
-        case 15 : appRunning=false;
+        case 15 :
+            System.out.print("Enter event name : ");sc.nextLine();
+            String eName1= sc.nextLine();
+            System.out.print("Enter event time : ");
+            String eTime=sc.nextLine();
+            System.out.print("Enter updated manager Name : ");
+            String updatedManagerName=sc.nextLine();
+            boolean isUpdated1 = eventService.updateEventManagerNameByEventNameAndEventTime(eName1,eTime,updatedManagerName);
+            System.out.println("Is Manager Name updated? : "+isUpdated1);
+            break;
+
+
+        case 16:
+            System.out.print("Enter event name : ");sc.nextLine();
+            String eName2 = sc.nextLine();
+            System.out.print("Enter updated event time : ");
+            String updatedEventTime=sc.nextLine();
+
+            boolean isUpdated2 = eventService.updateEventTimeByEventName(eName2,updatedEventTime);
+            System.out.println("Is Event Time updated? : "+isUpdated2);
+            break;
+
+        case 17:
+            System.out.println("Enter the event name to delete"); sc.nextLine();
+            String eventName3=sc.nextLine();
+            boolean isDeleted1 = eventService.deleteEventByEventName(eventName3);
+            System.out.println("Is Event Deleted? : "+isDeleted1);
+            break;
+
+        case 18 : appRunning=false;
             EntityManagerFactoryImpl.close();
             System.out.println("App Stopped");
             break;

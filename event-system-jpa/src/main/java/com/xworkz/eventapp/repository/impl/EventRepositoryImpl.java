@@ -38,7 +38,7 @@ public class EventRepositoryImpl implements EventRepository {
     public Optional<EventEntity> getEventInfoByName(String eName) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query =  entityManager.createQuery("select eventInfo from EventEntity eventInfo where eventInfo.eventName=:name");
+            Query query =  entityManager.createQuery("getEventInfoByName");
             query.setParameter("name",eName);
             EventEntity eventEntity = (EventEntity) query.getSingleResult();
             return Optional.of(eventEntity);
@@ -68,7 +68,7 @@ public class EventRepositoryImpl implements EventRepository {
     public Optional<EventEntity> getEventInfoByLocation(String eventLoc) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query =  entityManager.createQuery("select eventInfo from EventEntity eventInfo where eventInfo.eventLocation=:loc");
+            Query query =  entityManager.createNamedQuery("getEventInfoByLocation");
             query.setParameter("loc",eventLoc);
             EventEntity eventEntity = (EventEntity) query.getSingleResult();
             return Optional.of(eventEntity);
@@ -83,7 +83,7 @@ public class EventRepositoryImpl implements EventRepository {
     public Optional<EventEntity> getEventInfoByTimings(String timings) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query =  entityManager.createQuery("select eventInfo from EventEntity eventInfo where eventInfo.eventTimings=:eventTimings");
+            Query query =  entityManager.createNamedQuery("getEventInfoByTimings");
             query.setParameter("eventTimings",timings);
             EventEntity eventEntity = (EventEntity) query.getSingleResult();
             return Optional.of(eventEntity);
@@ -98,7 +98,7 @@ public class EventRepositoryImpl implements EventRepository {
     public Optional<EventEntity> getEventInfoByManagerName(String managerName) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query =  entityManager.createQuery("select eventInfo from EventEntity eventInfo where eventInfo.eventManagerName=:eventManager");
+            Query query =  entityManager.createNamedQuery("getEventInfoByManagerName");
             query.setParameter("eventManager",managerName);
             EventEntity eventEntity = (EventEntity) query.getSingleResult();
             return Optional.of(eventEntity);
@@ -159,7 +159,7 @@ public class EventRepositoryImpl implements EventRepository {
 
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select entities from EventEntity entities where entities.eventLocation=:location");
+            Query query = entityManager.createNamedQuery("getEventsInfoByLocation");
             query.setParameter("location",loc);
             List<EventEntity> eventEntities = query.getResultList();
 
@@ -177,7 +177,7 @@ public class EventRepositoryImpl implements EventRepository {
         Object[] eventsInfo=null;
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query =  entityManager.createQuery("select eventInfo.eventLocation,eventInfo.eventManagerName from EventEntity eventInfo where eventInfo.eventName=:eName");
+            Query query =  entityManager.createNamedQuery("getEventsInfoByEventName");
             query.setParameter("eName",eventName1);
             eventsInfo = (Object[]) query.getSingleResult();
         } catch (Exception e) {
@@ -191,7 +191,7 @@ public class EventRepositoryImpl implements EventRepository {
 
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select event.eventManagerName from EventEntity event");
+            Query query = entityManager.createNamedQuery("getAllManagerNames");
             List<String> managersList = query.getResultList();
             return managersList;
         } catch (Exception e) {
@@ -243,6 +243,59 @@ public class EventRepositoryImpl implements EventRepository {
             e.printStackTrace();
         }
         return location;
+    }
+
+    @Override
+    public boolean updateEventManagerNameByEventNameAndEventTime(String eName1, String eTime, String updatedManagerName) {
+        boolean isUpdated=false;
+        try{
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+
+            Query query = entityManager.createQuery("update EventEntity event set event.eventManagerName=:upManagerName where event.eventName=:eName and event.eventTimings=:eTimings");
+            int rowsAffected = query.setParameter("upManagerName",updatedManagerName).setParameter("eName",eName1).setParameter("eTimings",eTime).executeUpdate();
+            if (rowsAffected>0) isUpdated=true;
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean updateEventTimeByEventName(String eName2, String updatedEventTime) {
+        boolean isUpdated=false;
+        try{
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+
+            Query query = entityManager.createQuery("update EventEntity event set event.eventTimings=:upEventTime where event.eventName=:eName");
+            int rowsAffected = query.setParameter("upEventTime",updatedEventTime).setParameter("eName",eName2).executeUpdate();
+            if (rowsAffected>0) isUpdated=true;
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean deleteEventByEventName(String eventName3) {
+        boolean isDeleted=false;
+
+        try{
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+            Query query = entityManager.createQuery("delete  EventEntity event where event.eventName=:eName");
+            int rowsAffected = query.setParameter("eName",eventName3).executeUpdate();
+            if (rowsAffected>0) isDeleted=true;
+            entityManager.getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return isDeleted;
     }
 
 

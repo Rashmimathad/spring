@@ -211,4 +211,52 @@ public class EventServiceImpl implements EventService {
         return "";
     }
 
+    @Override
+    public boolean updateEventManagerNameByEventNameAndEventTime(String eName1, String eTime, String updatedManagerName) {
+        boolean isValidated = false;
+        if (eName1==null||eName1.isEmpty()){
+            System.err.println("Invalid event Name");
+        } else if (eTime==null||eTime.isEmpty()) {
+            System.err.println("Invalid event time");
+        } else if (updatedManagerName==null||updatedManagerName.isEmpty()) {
+            System.err.println("Invalid manager name");
+        }else {
+            isValidated=true;
+            boolean isUpdated=eventRepository.updateEventManagerNameByEventNameAndEventTime(eName1,eTime,updatedManagerName);
+            if (isUpdated) System.out.println("Updated Successfully!!!!");
+            else System.err.println("Not Updated");
+        }
+        return isValidated;
+    }
+
+    @Override
+    public boolean updateEventTimeByEventName(String eName2, String updatedEventTime) {
+        boolean isValidated = false;
+        if (eName2==null||eName2.isEmpty()){
+            System.err.println("Invalid event Name");
+        } else if (updatedEventTime==null||updatedEventTime.isEmpty()) {
+            System.err.println("Invalid event time");
+        }else {
+            isValidated=true;
+            boolean isUpdated=eventRepository.updateEventTimeByEventName(eName2,updatedEventTime);
+            if (isUpdated) System.out.println("Updated Successfully!!!!");
+            else System.err.println("Not Updated");
+        }
+        return isValidated;
+    }
+
+    @Override
+    public boolean deleteEventByEventName(String eventName3) {
+        boolean isValidated = false;
+        if (eventName3==null||eventName3.isEmpty()){
+            System.err.println("Invalid event Name");
+        }else {
+            isValidated=true;
+            boolean isDeleted=eventRepository.deleteEventByEventName(eventName3);
+            if (isDeleted) System.out.println("Deleted Successfully!!!!");
+            else System.err.println("Not Updated");
+        }
+        return isValidated;
+    }
+
 }

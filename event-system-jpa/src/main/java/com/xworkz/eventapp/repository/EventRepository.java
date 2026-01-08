@@ -35,4 +35,10 @@ public interface EventRepository {
     List<EventEntity> getAllEvents();
 
     String getEventLocationByTimings(String timings1);
+
+    boolean updateEventManagerNameByEventNameAndEventTime(String eName1, String eTime, String updatedManagerName);
+
+    boolean updateEventTimeByEventName(String eName2, String updatedEventTime);
+
+    boolean deleteEventByEventName(String eventName3);
 }

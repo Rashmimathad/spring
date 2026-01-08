@@ -91,7 +91,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
 
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select cloth from ClothEntity cloth where cloth.categoryName=:categoryName");
+            Query query = entityManager.createNamedQuery("findClothInfoByCategory");
             query.setParameter("categoryName",clothCategory);
             ClothEntity clothEntity = (ClothEntity) query.getSingleResult();
             if (clothEntity!=null){
@@ -109,7 +109,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
 
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select cloth from ClothEntity cloth where cloth.clothName=:cName");
+            Query query = entityManager.createNamedQuery("findClothInfoByClothName");
             query.setParameter("cName",clothName);
             ClothEntity clothEntity = (ClothEntity) query.getSingleResult();
             if (clothEntity!=null){
@@ -126,7 +126,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
 
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select cloth from ClothEntity cloth where cloth.brandName=:brand");
+            Query query = entityManager.createNamedQuery("findClothInfoByBrandName");
             query.setParameter("brand",brandName);
             ClothEntity clothEntity = (ClothEntity) query.getSingleResult();
             if (clothEntity!=null){
@@ -143,7 +143,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
 
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select cloth from ClothEntity cloth where cloth.size=:size");
+            Query query = entityManager.createNamedQuery("findClothInfoBySize");
             query.setParameter("size",cSize);
             ClothEntity clothEntity = (ClothEntity) query.getSingleResult();
             if (clothEntity!=null){
@@ -160,7 +160,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
 
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select cloth from ClothEntity cloth where cloth.color=:color");
+            Query query = entityManager.createNamedQuery("findClothInfoByColor");
             query.setParameter("color",clothColor);
             ClothEntity clothEntity = (ClothEntity) query.getSingleResult();
             if (clothEntity!=null){
@@ -176,7 +176,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
     public List<ClothEntity> filterClothsByCategory(String cCategory) {
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select cloth from ClothEntity cloth where cloth.categoryName=:cCategory");
+            Query query = entityManager.createNamedQuery("filterClothsByCategory");
             query.setParameter("cCategory",cCategory);
             List<ClothEntity> clothEntities =  query.getResultList();
             if (clothEntities !=null){
@@ -192,7 +192,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
     public List<ClothEntity> filterClothsByBrand(String bName) {
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select cloth from ClothEntity cloth where cloth.brandName=:bName");
+            Query query = entityManager.createNamedQuery("filterClothsByBrand");
             query.setParameter("bName",bName);
             List<ClothEntity> clothEntities =  query.getResultList();
             if (clothEntities !=null){
@@ -209,7 +209,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
 
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select cloth.clothName,cloth.size,cloth.brandName,cloth.price from ClothEntity cloth where cloth.categoryName=:cName");
+            Query query = entityManager.createNamedQuery("findClothNameAndBrandAndPriceByCategory");
             query.setParameter("cName",catgryName);
             List<Object[]> clothDetailsList = query.getResultList();
             if (clothDetailsList!=null){
@@ -226,7 +226,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
     public List<Object[]> fetchClothsListByCategoryAndPriceRange(String catName, double minPrice, double maxPrice) {
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select cloth.clothName,cloth.size,cloth.brandName,cloth.price from ClothEntity cloth where cloth.categoryName=:cName and cloth.price between :min and :max");
+            Query query = entityManager.createNamedQuery("fetchClothsListByCategoryAndPriceRange");
             query.setParameter("cName",catName);
             query.setParameter("min",minPrice);
             query.setParameter("max",maxPrice);
@@ -247,7 +247,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
         try{
 
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select cloth from ClothEntity cloth where cloth.categoryName=:categoryName and cloth.size=:cSize");
+            Query query = entityManager.createNamedQuery("getClothsListByCategoryAndSize");
             query.setParameter("categoryName",categoryName);
             query.setParameter("cSize",clSize);
 
@@ -268,7 +268,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
 
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select cloth from ClothEntity cloth");
+            Query query = entityManager.createNamedQuery("getAllClothesDetails");
             List<ClothEntity> clothEntitiesList = query.getResultList();
             if (clothEntitiesList!=null) return clothEntitiesList;
             else System.err.println("Data Not Available!!");
@@ -282,7 +282,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
     public List<String> getAllClothesName() {
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select distinct cloth.clothName from ClothEntity cloth");
+            Query query = entityManager.createNamedQuery("getAllClothesName");
             List<String> clotheNamesList = query.getResultList();
             if (clotheNamesList !=null) return clotheNamesList;
             else System.err.println("Data Not Available!!");
@@ -296,7 +296,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
     public List<String> getAllBrandNames() {
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select distinct cloth.brandName from ClothEntity cloth");
+            Query query = entityManager.createNamedQuery("getAllBrandNames");
             List<String> brandNamesList = query.getResultList();
             if (brandNamesList!=null) return brandNamesList;
             else System.err.println("Data Not Available!!");
@@ -310,7 +310,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
     public List<String> getAllCategories() {
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select distinct cloth.categoryName from ClothEntity cloth");
+            Query query = entityManager.createNamedQuery("getAllCategories");
             List<String> categoriesList = query.getResultList();
             if (categoriesList !=null) return categoriesList;
             else System.err.println("Data Not Available!!");
@@ -325,7 +325,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
         try{
 
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select cloth from ClothEntity cloth where cloth.categoryName=:categoryName and cloth.color=:color");
+            Query query = entityManager.createNamedQuery("getClothsListByCategoryAndColor");
             query.setParameter("categoryName",categoryName1);
             query.setParameter("color",color1);
 
@@ -346,7 +346,7 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
 
             try{
                 EntityManager entityManager = entityManagerFactory.createEntityManager();
-                Query query = entityManager.createQuery("select cloth from ClothEntity cloth where cloth.categoryName=:cName and cloth.brandName=:brand and cloth.price between :min and :max");
+                Query query = entityManager.createNamedQuery("fetchClothsListByCategoryBrandAndPriceRange");
                 query.setParameter("cName",ctName);
                 query.setParameter("brand",bName1);
                 query.setParameter("min",minPrice1);
