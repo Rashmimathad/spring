@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +21,8 @@ public class EventRepositoryImpl implements EventRepository {
     public boolean save(EventEntity eventEntity) {
     boolean isSaved=false;
     try {
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("eventPU");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManager.getTransaction().begin();
@@ -38,7 +41,7 @@ public class EventRepositoryImpl implements EventRepository {
     public Optional<EventEntity> getEventInfoByName(String eName) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query =  entityManager.createQuery("getEventInfoByName");
+            Query query =  entityManager.createNamedQuery("getEventInfoByName");
             query.setParameter("name",eName);
             EventEntity eventEntity = (EventEntity) query.getSingleResult();
             return Optional.of(eventEntity);
@@ -205,7 +208,7 @@ public class EventRepositoryImpl implements EventRepository {
         String eventName = null;
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Query query = entityManager.createQuery("select event.eventName from EventEntity event where event.eventManagerName=:managerName");
+            Query query = entityManager.createNamedQuery("getEventNameByManagerName");
           query.setParameter("managerName",managerName1);
 
            eventName = (String) query.getSingleResult();

@@ -20,8 +20,4 @@ public class RedCrossInit extends AbstractAnnotationConfigDispatcherServletIniti
         return new String[]{"/"};
     }
 
-
-
-
-
 }

@@ -77,7 +77,7 @@ while(appRunning) {
             System.out.println("Enter Event name :");
             sc.nextLine();
             String eName = sc.nextLine();
-            Optional<EventDTO> eventDTOOptional = eventService.getEventInfoByName(eName);
+            Optional<EventDTO> eventDTOOptional = eventService.getEventInfoByName("Yashu");
             if (eventDTOOptional.isPresent()){
                 System.out.println("Event Info : ");
                 System.out.println("Event Id : "+eventDTOOptional.get().getEventId());

@@ -14,7 +14,8 @@ import javax.persistence.*;
         @NamedQuery(name = "getEventInfoByManagerName", query = "select eventInfo from EventEntity eventInfo where eventInfo.eventManagerName=:eventManager"),
         @NamedQuery(name = "getEventsInfoByLocation", query = "select entities from EventEntity entities where entities.eventLocation=:location"),
         @NamedQuery(name = "getEventsInfoByEventName", query = "select eventInfo.eventLocation,eventInfo.eventManagerName from EventEntity eventInfo where eventInfo.eventName=:eName"),
-        @NamedQuery(name = "getAllManagerNames", query = "select event.eventManagerName from EventEntity event")
+        @NamedQuery(name = "getAllManagerNames", query = "select event.eventManagerName from EventEntity event"),
+        @NamedQuery(name = "getEventNameByManagerName",query = "select event.eventName from EventEntity event where event.eventManagerName=:managerName")
 })
 public class EventEntity {
     @Id

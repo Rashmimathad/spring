@@ -1,10 +1,12 @@
 package com.xworkz.redcross.service.impl;
 
 import com.xworkz.redcross.dto.DonorAccountDTO;
+import com.xworkz.redcross.entity.DonorAccountEntity;
 import com.xworkz.redcross.exceptions.DataInvalidException;
 import com.xworkz.redcross.exceptions.DuplicateEmailException;
 import com.xworkz.redcross.repository.RedCrossRepository;
 import com.xworkz.redcross.service.RedCrossService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,7 +72,11 @@ public class RedCrossServiceImpl implements RedCrossService {
             System.out.println("Data Validated");
             boolean isDuplicateEntry = redCrossRepository.duplicateCheck(donorAccountDTO.getEmail());
             if (!isDuplicateEntry) {
-                boolean isSaved = redCrossRepository.save(donorAccountDTO);
+                DonorAccountEntity donorAccountEntity = new DonorAccountEntity();
+                BeanUtils.copyProperties(donorAccountDTO,donorAccountEntity);
+                boolean isSaved = redCrossRepository.save(donorAccountEntity);
+                if (isSaved) System.out.println("Data Saved Successfully!!!");
+                else System.err.println("Data not Saved");
             }else throw new DuplicateEmailException("Email Already Exists!!");
 
         }else throw  new DataInvalidException("Data not saved, Please enter valid details!!");
@@ -82,19 +88,30 @@ public class RedCrossServiceImpl implements RedCrossService {
 
         if (email==null||email.isEmpty()){
             throw new DataInvalidException("Email Does not exists!!");
+        }else {
+            DonorAccountDTO donorAccountDTO = new DonorAccountDTO();
+            Optional<DonorAccountEntity> donorAccountEntity = redCrossRepository.getDonorInfoByEmail(email);
+            if (donorAccountEntity.isPresent()) {
+                BeanUtils.copyProperties(donorAccountEntity.get(), donorAccountDTO);
+                return Optional.of(donorAccountDTO);
+            }else throw new DataInvalidException("Email Does not exists!!");
         }
-             return redCrossRepository.getDonorInfo(email);
-
     }
 
     @Override
     public Optional<DonorAccountDTO> getDonorInfo(int id) throws DataInvalidException {
 
-        boolean isValidated = false;
         if (id<=0){
             throw new DataInvalidException("ID does not exist!!");
         }
-       return  redCrossRepository.getDonorInfoById(id);
+        else {
+            DonorAccountDTO donorAccountDTO = new DonorAccountDTO();
+            Optional<DonorAccountEntity> donorAccountEntity = redCrossRepository.getDonorInfoById(id);
+            if (donorAccountEntity.isPresent()) {
+                BeanUtils.copyProperties(donorAccountEntity.get(), donorAccountDTO);
+                return Optional.of(donorAccountDTO);
+            }else throw new DataInvalidException("ID Does not exists!!");
+        }
     }
 
     @Override
@@ -147,7 +164,9 @@ public class RedCrossServiceImpl implements RedCrossService {
 
         if (isValidated){
             System.out.println("Data Validated");
-                boolean isUpdated = redCrossRepository.update(donorAccountDTO);
+            DonorAccountEntity donorAccountEntity = new DonorAccountEntity();
+            BeanUtils.copyProperties(donorAccountDTO,donorAccountEntity);
+                boolean isUpdated = redCrossRepository.update(donorAccountEntity);
             if (isUpdated) System.out.println("Data Updated");
             else System.err.println("Data not updated");
         }else throw  new DataInvalidException("Data not updated, Please enter valid details!!");
