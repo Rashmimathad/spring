@@ -2,32 +2,51 @@ package com.xworkz.clothingcompany.service.impl;
 
 import com.xworkz.clothingcompany.dto.ClothDTO;
 import com.xworkz.clothingcompany.entity.ClothEntity;
+import com.xworkz.clothingcompany.exceptions.DataInvalidException;
+import com.xworkz.clothingcompany.exceptions.DataNotFoundException;
+import com.xworkz.clothingcompany.exceptions.DuplicateEntryException;
 import com.xworkz.clothingcompany.repository.ClothingCompanyRepository;
-import com.xworkz.clothingcompany.repository.impl.ClothingCompanyRepositoryImpl;
 import com.xworkz.clothingcompany.service.ClothingCompanyService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+
+@Service
 public class ClothingCompanyServiceImpl implements ClothingCompanyService {
 
-    ClothingCompanyRepository clothingCompanyRepository = new ClothingCompanyRepositoryImpl();
+    @Autowired
+    ClothingCompanyRepository clothingCompanyRepository;
 
 
     @Override
-    public boolean validateAndSave(ClothDTO clothDTO) {
+    public boolean validateAndSave(ClothDTO clothDTO) throws DuplicateEntryException, DataInvalidException {
         boolean isValidated = validateClothInfo(clothDTO);
+            if (!isValidated) {
+                throw new DataInvalidException("Failed to save data,Please try Again!!");
+            }
+                ClothEntity clothEntity = new ClothEntity();
+                BeanUtils.copyProperties(clothDTO, clothEntity);
+                boolean isDuplicateEntry = clothingCompanyRepository.checkDuplicateClothEntry(clothEntity.getClothName());
+                if (isDuplicateEntry) {
+                    System.err.println("Cloth Already Exists!!!");
+                    throw new DuplicateEntryException("Cloth Already Exists!!!");
+                }else {
+                    boolean isSaved = clothingCompanyRepository.save(clothEntity);
+                    if (isSaved) System.out.println("Data Saved Successfully!!!");
+                    else {
+                        System.err.println("Failed to save data");
+                        throw new DataInvalidException("Failed to save data,Please try Again!!");
 
-        if (isValidated){
-            ClothEntity clothEntity = new ClothEntity();
-            BeanUtils.copyProperties(clothDTO,clothEntity);
-            boolean isSaved = clothingCompanyRepository.save(clothEntity);
-            if (isSaved) System.out.println("Data Saved Successfully!!!");
-            else System.err.println("Failed to save data");
-        }else System.err.println("Data not validated");
+                    }
+                }
+
+
         return isValidated;
     }
 
@@ -67,7 +86,7 @@ public class ClothingCompanyServiceImpl implements ClothingCompanyService {
         if (clothId>0){
             isDeleted = clothingCompanyRepository.deleteById(clothId);
             if (isDeleted) System.out.println("Cloth Data deleted successfully!!!");
-            else System.err.println("Failed to delete data");
+            else throw new DataNotFoundException("Failed to delete Cloth Data,Please Try Again");
         }
         return isDeleted;
     }
@@ -86,14 +105,18 @@ public class ClothingCompanyServiceImpl implements ClothingCompanyService {
     }
 
     @Override
-    public Optional<ClothDTO> findClothInfoByClothName(String clothName) {
+    public Optional<ClothDTO> findClothInfoByClothName(String clothName) throws DataNotFoundException {
         if (clothName!=null||!clothName.isEmpty()){
             ClothDTO clothDTO = new ClothDTO();
             Optional<ClothEntity> clothEntity = clothingCompanyRepository.findClothInfoByClothName(clothName);
-            BeanUtils.copyProperties(clothEntity.get(),clothDTO);
-            return Optional.of(clothDTO);
-        }else System.err.println("Invalid Category");
-        return Optional.empty();
+            if (clothEntity.isPresent()) {
+                BeanUtils.copyProperties(clothEntity.get(), clothDTO);
+                return Optional.of(clothDTO);
+            }else throw new DataNotFoundException("Cloth Data Not found!!!");
+        }else {
+            System.err.println("Invalid Category");
+            throw new DataNotFoundException("Data Not Available!!!");
+        }
     }
 
     @Override
@@ -148,18 +171,16 @@ public class ClothingCompanyServiceImpl implements ClothingCompanyService {
 
     @Override
     public List<ClothDTO> filterClothsByBrand(String bName) {
-        if (bName!=null||!bName.isEmpty()){
+        if (bName != null || !bName.isEmpty()) {
             List<ClothDTO> clothDTOList = new ArrayList<>();
             List<ClothEntity> clothEntities = clothingCompanyRepository.filterClothsByBrand(bName);
             clothEntities.stream().forEach(clothEntity -> {
                 ClothDTO clothDTO = new ClothDTO();
-                BeanUtils.copyProperties(clothEntity,clothDTO);
+                BeanUtils.copyProperties(clothEntity, clothDTO);
                 clothDTOList.add(clothDTO);
             });
             return clothDTOList;
-        }
-
-        return Collections.emptyList();
+        } else throw new DataNotFoundException("Cloths Not found for "+bName+" Brand!!!");
     }
 
     @Override
@@ -304,38 +325,38 @@ public class ClothingCompanyServiceImpl implements ClothingCompanyService {
     private boolean validateClothInfo(ClothDTO clothDTO) {
         if (clothDTO.getClothName() == null || clothDTO.getClothName().trim().isEmpty()) {
             System.err.println("Invalid cloth name");
-            return false;
+            throw new DataInvalidException("Invalid cloth name");
         }
 
         if (clothDTO.getCategoryName() == null || clothDTO.getCategoryName().trim().isEmpty()) {
             System.err.println("Invalid category name");
-            return false;
+            throw new DataInvalidException("Invalid category name");
         }
 
         if (clothDTO.getSize() == null || clothDTO.getSize().trim().isEmpty()) {
             System.err.println("Invalid size");
-            return false;
+            throw new DataInvalidException("Invalid size");
         }
 
         if (clothDTO.getColor() == null || clothDTO.getColor().trim().isEmpty()) {
             System.err.println("Invalid color");
-            return false;
+            throw new DataInvalidException("Invalid color");
         }
 
         if (clothDTO.getPrice() <= 0) {
             System.err.println("Invalid price");
-            return false;
+            throw new DataInvalidException("Invalid price");
         }
 
         if (clothDTO.getStockQuantity() < 0) {
             System.err.println("Invalid stock quantity");
-            return false;
+            throw new DataInvalidException("Invalid stock quantity");
         }
 
         if (clothDTO.getAvailabilityStatus() == null
                 || clothDTO.getAvailabilityStatus().trim().isEmpty()) {
             System.err.println("Invalid availability status");
-            return false;
+            throw new DataInvalidException("Invalid availability status");
         }
 
         return true;

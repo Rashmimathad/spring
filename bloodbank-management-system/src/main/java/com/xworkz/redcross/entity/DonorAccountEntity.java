@@ -14,9 +14,9 @@ import javax.persistence.*;
 @Table(name = "donor_table")
 @NamedQueries({
         @NamedQuery(name = "getDuplicateEntry",query = "select 1 from DonorAccountEntity entry where entry.email=:email"),
-        @NamedQuery(name = "getDonorInfoByEmail",query = "select entry from DonorAccountEntity entry where entry.email=:emailId"),
-        @NamedQuery(name = "update",query = "update DonorAccountEntity entry set entry.email=:email,entry.dobYear=:dobYear,entry.dobMonth=:dobMonth,entry.dobDay=:dobDay,entry.firstName=:fName,entry.lastName=:lName,entry.zip=:zCode,entry.userName=:uName,entry.password=:pwd,entry.confirmPassword=:cPwd where entry.id=:dId"),
-        @NamedQuery(name = "delete",query = "delete  DonorAccountEntity entry where entry.id=:id")
+        @NamedQuery(name = "getDonorInfoByEmail",query = "select entry from DonorAccountEntity entry where entry.email=:emailId and entry.isDeleted=0"),
+        @NamedQuery(name = "update",query = "update DonorAccountEntity entry set entry.email=:email,entry.dobYear=:dobYear,entry.dobMonth=:dobMonth,entry.dobDay=:dobDay,entry.firstName=:fName,entry.lastName=:lName,entry.zip=:zCode,entry.userName=:uName,entry.password=:pwd,entry.confirmPassword=:cPwd where entry.id=:dId and entry.isDeleted=0"),
+        @NamedQuery(name = "delete",query = "update DonorAccountEntity entry set entry.isDeleted=1 where entry.id=:id")
 })
 public class DonorAccountEntity {
     @Id
@@ -42,4 +42,6 @@ public class DonorAccountEntity {
     private String password;
     @Column(name = "confirm_password")
     private String confirmPassword;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 }

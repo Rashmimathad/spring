@@ -1,6 +1,9 @@
 package com.xworkz.clothingcompany.service;
 
 import com.xworkz.clothingcompany.dto.ClothDTO;
+import com.xworkz.clothingcompany.exceptions.DataInvalidException;
+import com.xworkz.clothingcompany.exceptions.DataNotFoundException;
+import com.xworkz.clothingcompany.exceptions.DuplicateEntryException;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +11,7 @@ import java.util.Optional;
 public interface ClothingCompanyService {
 
 
-    boolean validateAndSave(ClothDTO clothDTO);
+    boolean validateAndSave(ClothDTO clothDTO) throws DuplicateEntryException, DataInvalidException;
 
     Optional<ClothDTO> findClothInfoById(int id);
 
@@ -18,7 +21,7 @@ public interface ClothingCompanyService {
 
     Optional<ClothDTO> findClothInfoByCategory(String clothCategory);
 
-    Optional<ClothDTO> findClothInfoByClothName(String clothName);
+    Optional<ClothDTO> findClothInfoByClothName(String clothName) throws DataNotFoundException;
 
     Optional<ClothDTO> findClothInfoByBrandName(String brandName);
 
@@ -47,4 +50,5 @@ public interface ClothingCompanyService {
     List<ClothDTO> getClothsListByCategoryAndColor(String categoryName1, String color1);
 
     List<ClothDTO> fetchClothsListByCategoryBrandAndPriceRange(String ctName, String bName1, double minPrice1, double maxPrice1);
+
 }

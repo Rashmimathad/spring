@@ -47,4 +47,6 @@ public interface ClothingCompanyRepository {
     List<ClothEntity> getClothsListByCategoryAndColor(String categoryName1, String color1);
 
     List<ClothEntity> fetchClothsListByCategoryBrandAndPriceRange(String ctName, String bName1, double minPrice1, double maxPrice1);
+
+    boolean checkDuplicateClothEntry(String clothName);
 }

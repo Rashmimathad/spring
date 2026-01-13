@@ -2,7 +2,8 @@ package com.xworkz.clothingcompany.repository.impl;
 
 import com.xworkz.clothingcompany.entity.ClothEntity;
 import com.xworkz.clothingcompany.repository.ClothingCompanyRepository;
-import com.xworkz.clothingcompany.util.EntityManagerFactoryUtility;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,9 +13,12 @@ import java.util.List;
 import java.util.Optional;
 
 
+@Repository
+
 public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository {
 
-    EntityManagerFactory entityManagerFactory = EntityManagerFactoryUtility.getEntityManagerFactory();
+    @Autowired
+    EntityManagerFactory entityManagerFactory;
 
     @Override
     public boolean save(ClothEntity clothEntity) {
@@ -73,11 +77,10 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
 
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            ClothEntity clothEntity = entityManager.find(ClothEntity.class,clothId);
-            if (clothEntity!=null){
-                entityManager.remove(clothEntity);
+            Query query = entityManager.createNamedQuery("deleteById");
+            int rowsAffected = query.setParameter("id",clothId).executeUpdate();
+            if (rowsAffected>0)
                 isDeleted=true;
-            }
             entityManager.getTransaction().commit();
             entityManager.close();
         } catch (Exception e) {
@@ -359,5 +362,25 @@ public class ClothingCompanyRepositoryImpl implements ClothingCompanyRepository 
                 e.printStackTrace();
             }
         return Collections.emptyList();
+    }
+
+    @Override
+    public boolean checkDuplicateClothEntry(String clothName) {
+        boolean isDuplicateEntry = false;
+        try{
+
+           EntityManager entityManager = entityManagerFactory.createEntityManager();
+           Query query = entityManager.createNamedQuery("getDuplicateEntries");
+           query.setParameter("clothName",clothName);
+           List<ClothEntity> clothEntities = query.getResultList();
+
+           if (clothEntities.listIterator().hasNext()){
+               isDuplicateEntry=true;
+           }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isDuplicateEntry;
     }
 }

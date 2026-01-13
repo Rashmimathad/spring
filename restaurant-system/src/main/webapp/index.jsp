@@ -32,7 +32,7 @@
     <h1 class="mb-4 text-danger">Available Forms</h1>
     <p class="lead text-danger fw-bold">Choose a form below to continue:</p>
 
-    <div class="row justify-content-center mt-4">
+<!--    <div class="row justify-content-center mt-4">-->
         <div class="col-md-5">
             <a href="registerpage" class="btn btn-danger w-100 mb-3 fw-semibold fs-4">Register Form</a>
         </div>
