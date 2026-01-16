@@ -20,7 +20,7 @@ import javax.persistence.*;
         @NamedQuery(name = "filterClothsByCategory",query = "select cloth from ClothEntity cloth where cloth.categoryName=:cCategory AND cloth.isDeleted=0"),
         @NamedQuery(name = "filterClothsByBrand",query = "select cloth from ClothEntity cloth where cloth.brandName=:bName AND cloth.isDeleted=0"),
         @NamedQuery(name = "findClothNameAndBrandAndPriceByCategory",query = "select cloth.clothName,cloth.size,cloth.brandName,cloth.price from ClothEntity cloth where cloth.categoryName=:cName AND cloth.isDeleted=0"),
-        @NamedQuery(name = "fetchClothsListByCategoryAndPriceRange",query = "select cloth.clothName,cloth.size,cloth.brandName,cloth.price from ClothEntity cloth where cloth.categoryName=:cName AND cloth.price between :min AND :max AND cloth.isDeleted=0"),
+        @NamedQuery(name = "fetchClothsListByCategoryAndPriceRange",query = "select cloth.clothId,cloth.clothName,cloth.size,cloth.brandName,cloth.price from ClothEntity cloth where cloth.categoryName=:cName AND cloth.price between :min AND :max AND cloth.isDeleted=0"),
         @NamedQuery(name = "getClothsListByCategoryAndSize",query = "select cloth from ClothEntity cloth where cloth.categoryName=:categoryName and cloth.size=:cSize AND cloth.isDeleted=0"),
         @NamedQuery(name = "getAllClothesDetails",query = "select cloth from ClothEntity cloth where cloth.isDeleted=0"),
         @NamedQuery(name = "getAllClothesName",query = "select distinct cloth.clothName from ClothEntity cloth where cloth.isDeleted=0"),

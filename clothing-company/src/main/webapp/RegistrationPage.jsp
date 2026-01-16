@@ -7,6 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HOME</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        body {
+ background-image: url('<%= request.getContextPath() %>/resources/images/bgImage.jpg');
+ background-repeat: no-repeat;
+ background-size: cover;
+ background-position: center;
+ backdrop-filter: blur(7px);
+}
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-secondary border-bottom border-body" style="height: 60px;">
@@ -96,6 +105,6 @@
         </div>
     </div>
 </div>
-<script src="<%= request.getContextPath() %>/resources//script.js"></script>
+<script src="<%= request.getContextPath() %>/resources/script.js"></script>
 </body>
 </html>

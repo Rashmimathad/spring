@@ -6,6 +6,7 @@ import com.xworkz.clothingcompany.exceptions.DataInvalidException;
 import com.xworkz.clothingcompany.exceptions.DataNotFoundException;
 import com.xworkz.clothingcompany.exceptions.DuplicateEntryException;
 import com.xworkz.clothingcompany.service.ClothingCompanyService;
+import com.xworkz.clothingcompany.util.NumberValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,6 +55,11 @@ public class ClothingCompanyController {
         return "FilterByCategory.jsp";
     }
 
+    @RequestMapping("/filterByCategoryAndPricePage")
+    public String getCategoryAndPriceFilterPage(){
+        return "FilterByCategoryAndPrice.jsp";
+    }
+
     @PostMapping("/registerCloth")
     public String addCloth( ClothDTO clothDTO, Model model) {
 
@@ -94,8 +100,8 @@ public class ClothingCompanyController {
     }
 
     @GetMapping("edit/{id}")
-    public String getClothInfoById(@PathVariable("id")int id, Model model){
-        Optional<ClothDTO> clothDTO = clothingCompanyService.findClothInfoById(id);
+    public String getClothInfoById(@PathVariable("id")String id, Model model){
+        Optional<ClothDTO> clothDTO = clothingCompanyService.findClothInfoById(NumberValidation.parseIntSafe(id));
         if (clothDTO.isPresent()) {
             System.out.println(clothDTO.get());
             model.addAttribute("clothInfo", clothDTO.get());
@@ -116,10 +122,10 @@ public class ClothingCompanyController {
     }
 
     @RequestMapping("/delete/{id}")
-    public String deleteById(@PathVariable("id")int id,Model model){
+    public String deleteById(@PathVariable("id")String id,Model model){
 
         try{
-             boolean isDeleted = clothingCompanyService.deleteById(id);
+             boolean isDeleted = clothingCompanyService.deleteById(NumberValidation.parseIntSafe(id));
             if (isDeleted){
                 System.out.println("Deleted Successfully!!");
                 model.addAttribute("successMessage","Cloth with id "+id+" deleted Successfully!!!");
@@ -134,7 +140,7 @@ public class ClothingCompanyController {
     public String filterClothsByBrandName(@RequestParam("brandName")String brandName,@RequestParam("submitType")String submitType, Model model){
         try {
             if ("clear".equalsIgnoreCase(submitType)){
-                model.addAttribute("clothInfo", null);
+                model.addAttribute("clothsListByBrand", null);
             }else {
                 List<ClothDTO> clothsList = clothingCompanyService.filterClothsByBrand(brandName);
                 if (clothsList!=null) {
@@ -155,7 +161,7 @@ public class ClothingCompanyController {
     public String filterClothsByCategoryName(@RequestParam("categoryName")String categoryName,@RequestParam("submitType")String submitType, Model model){
         try {
             if ("clear".equalsIgnoreCase(submitType)){
-                model.addAttribute("clothInfo", null);
+                model.addAttribute("clothsListByCategory", null);
             }else {
                 List<ClothDTO> clothsList = clothingCompanyService.filterClothsByCategory(categoryName);
                 if (clothsList!=null) {
@@ -170,5 +176,29 @@ public class ClothingCompanyController {
             model.addAttribute("errorMessage", e.getMessage());
         }
         return "FilterByCategory.jsp";
+    }
+
+    @RequestMapping("/filterByCategoryNameAndPrice")
+    public String filterByCategoryNameAndPrice(@RequestParam("categoryName")String categoryName,@RequestParam("minPrice")String minPrice,@RequestParam("maxPrice")String maxPrice,@RequestParam("submitType")String submitType,Model model){
+
+        try {
+            if ("clear".equalsIgnoreCase(submitType)&&(minPrice == null || maxPrice == null)){
+                model.addAttribute("clothsListByCategoryAndPrice", null);
+            }else {
+                List<Object[]> clothsList = clothingCompanyService.fetchClothsListByCategoryAndPriceRange(categoryName, NumberValidation.parseDoubleSafe(minPrice), NumberValidation.parseDoubleSafe(maxPrice));
+                if (clothsList != null) {
+                    System.out.println("Cloths List filtered by Category Name And Price : ");
+                    clothsList.forEach(clothDTO -> {
+                        System.out.println(clothDTO);
+                    });
+                    model.addAttribute("clothsListByCategoryAndPrice", clothsList);
+                } else if (minPrice == null || maxPrice == null) {
+                    model.addAttribute("errorMessage", "Please enter min and max price");
+                }
+            }
+        } catch (DataNotFoundException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+        }
+        return "FilterByCategoryAndPrice.jsp";
     }
 }

@@ -35,6 +35,7 @@
     <div class="col-md-5">
         <a href="filterByBrandPage" class="btn btn-outline-primary w-100 mb-3 fw-semibold fs-4">Brand</a>
         <a href="filterByCategoryPage" class="btn btn-outline-primary w-100 mb-3 fw-semibold fs-4">Category</a>
+        <a href="filterByCategoryAndPricePage" class="btn btn-outline-primary w-100 mb-3 fw-semibold fs-4">Category and Price Range</a>
     </div>
 
 </div>

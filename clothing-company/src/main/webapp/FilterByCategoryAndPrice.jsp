@@ -31,15 +31,24 @@
     </div>
 </nav>
 <div class="d-flex justify-content-center align-items-center" style="height:120vh;">
-    <div class="card p-2 bg-body-secondary bg-opacity-75 border border-dark border-2 rounded" style="width: 65rem;">
+    <div class="card p-2 bg-body-secondary bg-opacity-75 border border-dark border-2 rounded" style="width: 55rem;">
         <div class="card-body">
             <h3 class="card-title fs-1 text-center fw-semibold text-dark text-uppercase"><b>Cloth Search</b></h3>
             <br>
-            <form action="<%= request.getContextPath() %>/filterByCategoryName">
+            <form action="<%= request.getContextPath() %>/filterByCategoryNameAndPrice">
 
                 <div class="mb-3">
                     <label for="categoryName" class="form-label fs-5 fw-bold">Category Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter category name">
+                </div>
+                <div class="mb-3">
+                    <label for="minPrice" class="form-label fs-5 fw-bold">Price <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" id="minPrice" name="minPrice"  placeholder="Enter minimum price">
+                </div>
+
+                <div class="mb-3">
+                    <label for="maxPrice" class="form-label fs-5 fw-bold">Price <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="Enter maximum price">
                 </div>
 
                 <br>
@@ -54,39 +63,23 @@
             <c:if test="${not empty errorMessage}">
                 <h5 class="card-title text-center fs-3"  style="color:red;">${errorMessage}</h5>
             </c:if>
-            <c:if test="${not empty clothsListByCategory}">
+            <c:if test="${not empty clothsListByCategoryAndPrice}">
                 <table class="table">
-                    <thead class="table-info text-center">
+                    <thead class="table-info">
                     <th scope="col">ID</th>
                     <th scope="col">Cloth Name</th>
-                    <th scope="col">Brand Name</th>
-                    <th scope="col">Category Name</th>
                     <th scope="col">Size</th>
-                    <th scope="col">Color</th>
+                    <th scope="col">Brand Name</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Stock Quantity</th>
-                    <th scope="col">Availability</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
                     </thead>
                     <tbody>
-                    <c:forEach var="clothInfo" items="${clothsListByCategory}">
+                    <c:forEach var="clothInfo" items="${clothsListByCategoryAndPrice}">
                         <tr>
-                            <th scope="row">${clothInfo.clothId}</th>
-                            <td>${clothInfo.clothName}</td>
-                            <td>${clothInfo.brandName}</td>
-                            <td>${clothInfo.categoryName}</td>
-                            <td>${clothInfo.size}</td>
-                            <td>${clothInfo.color}</td>
-                            <td>${clothInfo.price}</td>
-                            <td>${clothInfo.stockQuantity}</td>
-                            <td>${clothInfo.availabilityStatus}</td>
-                            <td>
-                                <a type="submit" href="edit/${clothInfo.clothId}" class="btn  btn-warning fs-5 px-3 ">Edit</a>
-                            </td>
-                            <td>
-                                <a type="submit" href="<%= request.getContextPath() %>/delete/${clothInfo.clothId}" class="btn btn-danger fs-5 px-3">Delete</a>
-                            </td>
+                            <th scope="row">${clothInfo[0]}</th>
+                            <td>${clothInfo[1]}</td>
+                            <td>${clothInfo[2]}</td>
+                            <td>${clothInfo[3]}</td>
+                            <td>${clothInfo[4]}</td>
                         </tr>
                     </c:forEach>
                     </tbody>
