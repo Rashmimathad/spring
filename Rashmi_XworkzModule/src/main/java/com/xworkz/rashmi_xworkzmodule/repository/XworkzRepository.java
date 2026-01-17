@@ -6,4 +6,8 @@ public interface XworkzRepository {
     boolean save(UserEntity userEntity);
 
     String checkUser(String email);
+
+    void updateCount(String email);
+
+    int getCount(String email);
 }

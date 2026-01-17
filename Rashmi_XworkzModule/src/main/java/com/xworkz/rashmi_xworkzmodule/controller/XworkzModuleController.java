@@ -6,9 +6,7 @@ import com.xworkz.rashmi_xworkzmodule.exceptions.UserNotFounException;
 import com.xworkz.rashmi_xworkzmodule.service.XworkzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,14 +44,23 @@ public class XworkzModuleController {
 
     @PostMapping("/signIn")
     public String signIn(@RequestParam("userEmail")String email,@RequestParam("password")String password,Model model){
+        boolean isUserExists = false;
 
         try {
-            boolean isUserExists = xworkzService.checkUser(email, password);
+             isUserExists =  xworkzService.checkUser(email, password);
             if (isUserExists) {
                 return "Home";
             }
         } catch (UserNotFounException e) {
-            model.addAttribute("errorMsg",e.getMessage());
+          int count =  xworkzService.getCount(email);
+            System.out.println(count);
+            if (count>=2){
+                return "SignInWithOTP";
+            }else{
+                xworkzService.updateCount(email);
+                model.addAttribute("errorMsg",e.getMessage());
+            }
+
         }
         return "SignIn";
     }

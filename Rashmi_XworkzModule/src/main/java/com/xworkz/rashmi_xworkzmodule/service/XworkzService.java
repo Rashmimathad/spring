@@ -8,4 +8,9 @@ public interface XworkzService {
     boolean validateAndSave(UserDTO userDTO) throws DataInvalidException;
 
     boolean checkUser(String email, String password) throws UserNotFounException;
+
+
+    void updateCount(String email);
+
+    int getCount(String email);
 }

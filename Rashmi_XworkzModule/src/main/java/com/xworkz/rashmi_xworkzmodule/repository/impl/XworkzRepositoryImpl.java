@@ -33,9 +33,7 @@ public class XworkzRepositoryImpl implements XworkzRepository {
     @Override
     public String checkUser(String email) {
         String password="";
-
         try{
-
             EntityManager entityManager = factory.createEntityManager();
             Query query = entityManager.createNamedQuery("checkUserExists");
             query.setParameter("email",email);
@@ -45,5 +43,35 @@ public class XworkzRepositoryImpl implements XworkzRepository {
          e.printStackTrace();
          return null;
         }
+    }
+
+
+
+    @Override
+    public void updateCount(String email) {
+        try{
+            EntityManager entityManager = factory.createEntityManager();
+            entityManager.getTransaction().begin();
+            Query query = entityManager.createNamedQuery("updateCount");
+            query.setParameter("eMail",email);
+             int rowsAffected = query.executeUpdate();
+            System.out.println(rowsAffected);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public int getCount(String email) {
+        int count = 0;
+        try {
+            EntityManager entityManager = factory.createEntityManager();
+            Query query = entityManager.createNamedQuery("getCount");
+            count = (int) query.setParameter("eMail", email).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 }

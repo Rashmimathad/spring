@@ -46,29 +46,29 @@
             <form class="row g-3" action="registerUser" method="post">
                 <div class="col-md-6">
                     <label for="name" class="form-label fs-6 fw-semibold">Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="name" name="userName" placeholder="Enter your name" onblur="validateUserName();enableSubmit();">
+                    <input type="text" class="form-control" id="name" name="userName" placeholder="Enter your name" onchange="validateUserName();enableSubmit();">
                     <span id="nameError" class="text-danger fw-bold"></span>
                 </div>
 
                 <div class="col-md-6">
                     <label for="email" class="form-label fs-6 fw-semibold">Email <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" id="email" name="userEmail" placeholder="Enter your email id" onblur="validateUserEmail();enableSubmit();">
+                    <input type="email" class="form-control" id="email" name="userEmail" placeholder="Enter your email id" onchange="validateUserEmail();enableSubmit();">
                     <span id="emailError" class="text-danger fw-bold"></span>
                 </div>
                 <div class="col-6">
                     <label for="phoneNumber" class="form-label fs-6 fw-semibold">Phone Number <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="phoneNumber"  name="phoneNumber" placeholder="+91 8952162632" onblur="validatePhoneNumber();enableSubmit();">
+                    <input type="text" class="form-control" id="phoneNumber"  name="phoneNumber" placeholder="+91 8952162632" onchange="validatePhoneNumber();enableSubmit();">
                     <span id="phoneNumberError" class="text-danger fw-bold"></span>
                 </div>
                 <div class="col-md-6">
                     <label for="age" class="form-label fs-6 fw-semibold">Age <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" id="age" name="age" placeholder="Enter your age" onblur="validateAge();enableSubmit();">
+                    <input type="number" class="form-control" id="age" name="age" placeholder="Enter your age" onchange="validateAge();enableSubmit();">
                     <span id="ageError" class="text-danger fw-bold"></span>
                 </div>
 
                 <div class="col-md-4">
                     <label for="gender" class="form-label fs-6 fw-semibold">Gender <span class="text-danger">*</span></label>
-                    <select id="gender" class="form-select" name="gender"  onblur="validateGender();enableSubmit();">
+                    <select id="gender" class="form-select" name="gender"  onchange="validateGender();enableSubmit();">
                         <option value=" ">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -79,18 +79,18 @@
 
                 <div class="col-md-8">
                     <label for="address" class="form-label fs-6 fw-semibold">Address <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter your address" onblur="validateAddress();enableSubmit();">
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter your address" onchange="validateAddress();enableSubmit();">
                     <span id="addressError" class="text-danger fw-bold"></span>
                 </div>
 
                 <div class="col-md-6">
                     <label for="password" class="form-label fs-6 fw-semibold">Password <span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" onblur="validatePassword();enableSubmit();">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" onchange="validatePassword();enableSubmit();">
                     <span id="passwordError" class="text-danger fw-bold"></span>
                 </div>
                 <div class="col-md-6">
                     <label for="confirmPassword" class="form-label fs-6 fw-semibold">Confirm Password <span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Re-enter the Password" onblur="validateConfirmPassword();enableSubmit();">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Re-enter the Password" onchange="validateConfirmPassword();enableSubmit();">
                     <span id="confirmPasswordError" class="text-danger fw-bold"></span>
                 </div>
 

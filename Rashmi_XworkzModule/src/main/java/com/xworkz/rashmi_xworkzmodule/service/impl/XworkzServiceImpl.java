@@ -90,23 +90,34 @@ public class XworkzServiceImpl implements XworkzService {
 
     @Override
     public boolean checkUser(String email, String password) throws UserNotFounException {
-
         boolean isUserExists=false;
-
         if (email==null||email.isEmpty()){
             System.err.println("Invalid email");
         }else if (password==null||password.isEmpty()){
             System.err.println("Invalid password");
         }else {
 
-            String pwd=xworkzRepository.checkUser(email);
-            if (pwd!=null&&!pwd.isEmpty()) {
+            String pwd =xworkzRepository.checkUser(email);
+            if (pwd !=null&&!pwd.isEmpty()) {
                 String decryptedPassword = passwordEncryption.decrypt(pwd);
                 if (decryptedPassword.equals(password)) {
                     isUserExists = true;
-                }else throw new UserNotFounException("Invalid password!!!");
+                }else{
+                   int count =  xworkzRepository.getCount(email);
+                    throw new UserNotFounException("Invalid password, you have "+(3-(count+1))+" attempts!!");
+                }
             }else throw new UserNotFounException("User Not Found!!");
         }
         return isUserExists;
+    }
+
+    @Override
+    public void updateCount(String email) {
+        xworkzRepository.updateCount(email);
+    }
+
+    @Override
+    public int getCount(String email) {
+        return xworkzRepository.getCount(email);
     }
 }

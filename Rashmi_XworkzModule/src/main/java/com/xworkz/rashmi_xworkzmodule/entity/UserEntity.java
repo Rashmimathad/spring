@@ -14,7 +14,9 @@ import javax.persistence.*;
 @Table(name = "user_table")
 @NamedQueries({
 
-        @NamedQuery(name = "checkUserExists",query = "select user.password from UserEntity user where user.userEmail=:email")
+        @NamedQuery(name = "checkUserExists",query = "select user.password from UserEntity user where user.userEmail=:email"),
+        @NamedQuery(name = "updateCount",query = "update UserEntity user set user.count = user.count+1   where user.userEmail=:eMail"),
+        @NamedQuery(name = "getCount",query = "select user.count from UserEntity user where user.userEmail=:eMail")
 })
 public class UserEntity {
 
@@ -35,4 +37,6 @@ public class UserEntity {
     private String address;
     @Column(name = "password")
     private String password;
+    @Column(name = "count")
+    public int count;
 }
