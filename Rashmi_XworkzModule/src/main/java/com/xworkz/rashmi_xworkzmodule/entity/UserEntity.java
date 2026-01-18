@@ -16,7 +16,8 @@ import javax.persistence.*;
 
         @NamedQuery(name = "checkUserExists",query = "select user.password from UserEntity user where user.userEmail=:email"),
         @NamedQuery(name = "updateCount",query = "update UserEntity user set user.count = user.count+1   where user.userEmail=:eMail"),
-        @NamedQuery(name = "getCount",query = "select user.count from UserEntity user where user.userEmail=:eMail")
+        @NamedQuery(name = "getCount",query = "select user.count from UserEntity user where user.userEmail=:eMail"),
+        @NamedQuery(name = "setCountToZero",query = "update UserEntity user set user.count=0 where user.userEmail=:eMail")
 })
 public class UserEntity {
 

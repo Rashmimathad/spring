@@ -32,6 +32,11 @@ public class XworkzModuleController {
         return "SignIn";
     }
 
+    @RequestMapping("/signInWithOTP")
+    public String getSignInWithOTP(){
+        return "SignInWithOTP";
+    }
+
     @PostMapping("/registerUser")
     public String registerUser(UserDTO userDTO, Model model){
         try {
@@ -49,18 +54,19 @@ public class XworkzModuleController {
         try {
              isUserExists =  xworkzService.checkUser(email, password);
             if (isUserExists) {
-                model.addAttribute("faceStatus","correct");
+                xworkzService.setCountToZero(email);
                 return "Home";
             }
         } catch (UserNotFounException e) {
           int count =  xworkzService.getCount(email);
+            model.addAttribute("userEmail", email);
             System.out.println(count);
             if (count>=2){
-                model.addAttribute("faceStatus", "neutral");
-                return "SignInWithOTP";
+                model.addAttribute("disableLogin", true);
+                model.addAttribute("showForgot", true);
+                return "SignIn";
             }else{
                 xworkzService.updateCount(email);
-                model.addAttribute("faceStatus", "wrong");
                 model.addAttribute("errorMsg",e.getMessage());
             }
 

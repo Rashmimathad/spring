@@ -13,4 +13,6 @@ public interface XworkzService {
     void updateCount(String email);
 
     int getCount(String email);
+
+    void setCountToZero(String email);
 }

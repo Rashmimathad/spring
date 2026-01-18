@@ -74,4 +74,19 @@ public class XworkzRepositoryImpl implements XworkzRepository {
         }
         return count;
     }
+
+    @Override
+    public void setCountToZero(String email) {
+        try{
+            EntityManager entityManager = factory.createEntityManager();
+            entityManager.getTransaction().begin();
+            Query query = entityManager.createNamedQuery("setCountToZero");
+            query.setParameter("eMail",email);
+            int rowsAffected = query.executeUpdate();
+            System.out.println(rowsAffected);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

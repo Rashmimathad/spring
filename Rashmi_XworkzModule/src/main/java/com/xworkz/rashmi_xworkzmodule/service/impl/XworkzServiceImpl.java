@@ -117,4 +117,9 @@ public class XworkzServiceImpl implements XworkzService {
     public int getCount(String email) {
         return xworkzRepository.getCount(email);
     }
+
+    @Override
+    public void setCountToZero(String email) {
+        xworkzRepository.setCountToZero(email);
+    }
 }
