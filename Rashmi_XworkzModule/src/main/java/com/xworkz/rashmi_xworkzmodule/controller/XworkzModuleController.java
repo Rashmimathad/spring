@@ -49,15 +49,18 @@ public class XworkzModuleController {
         try {
              isUserExists =  xworkzService.checkUser(email, password);
             if (isUserExists) {
+                model.addAttribute("faceStatus","correct");
                 return "Home";
             }
         } catch (UserNotFounException e) {
           int count =  xworkzService.getCount(email);
             System.out.println(count);
             if (count>=2){
+                model.addAttribute("faceStatus", "neutral");
                 return "SignInWithOTP";
             }else{
                 xworkzService.updateCount(email);
+                model.addAttribute("faceStatus", "wrong");
                 model.addAttribute("errorMsg",e.getMessage());
             }
 

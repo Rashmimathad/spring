@@ -26,7 +26,7 @@
 
 <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" style="height: 60px;">
     <div class="container-fluid">
-        <img src="<%= request.getContextPath() %>/resources/images/logo.png" alt="logo" style="height:60px;width:85px;">
+        <img src="<%= request.getContextPath() %>/resources/images/logo.png" alt="logo" style="height:60px;width:130px;">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -41,6 +41,19 @@
         </div>
     </div>
 </nav>
+
+<div class="container-fluid d-flex align-items-center"
+     style="height: calc(100vh - 100px);">
+
+<div class="d-flex justify-content-start align-items-center">
+    <div id="face">
+        <span class="eye left"></span>
+        <span class="eye right"></span>
+        <span class="mouth"></span>
+    </div>
+
+
+</div>
 
 <div class="container-fluid vh-100 d-flex justify-content-end align-items-center">
     <div class="card shadow p-3 mb-5 bg-body-tertiary rounded me-4" style="width: 40rem;">
@@ -70,7 +83,7 @@
         </div>
     </div>
 </div>
-
+</div>
 <script src="<%= request.getContextPath() %>/resources/SignInScript.js"></script>
 </body>
 </html>

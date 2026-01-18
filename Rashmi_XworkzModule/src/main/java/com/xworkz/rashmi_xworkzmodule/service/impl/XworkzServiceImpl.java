@@ -33,10 +33,7 @@ public class XworkzServiceImpl implements XworkzService {
         } else if (userDTO.getUserEmail()==null||userDTO.getUserEmail().isEmpty()) {
             System.err.println("Invalid user email");
             throw new DataInvalidException("Invalid User Email");
-        } else if (!userDTO.getUserEmail().contains("@gmail.com")) {
-            System.err.println("Invalid user email");
-            throw new DataInvalidException("Invalid User Email");
-        } else if (userDTO.getPhoneNumber()==null||userDTO.getPhoneNumber().isEmpty()) {
+        }  else if (userDTO.getPhoneNumber()==null||userDTO.getPhoneNumber().isEmpty()) {
             System.err.println("Invalid Phone Number");
             throw new DataInvalidException("Invalid Phone Number");
         } else if (userDTO.getAge()<18) {

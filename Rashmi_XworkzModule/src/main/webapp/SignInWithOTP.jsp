@@ -26,13 +26,15 @@
 
 <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" style="height: 60px;">
     <div class="container-fluid">
-        <img src="<%= request.getContextPath() %>/resources/images/logo.png" alt="logo" style="height:60px;width:85px;">
+        <img src="<%= request.getContextPath() %>/resources/images/logo.png" alt="logo" style="height:60px;width:130px;">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
+
         <div class="collapse navbar-collapse" id="navbarNav">
+
             <ul class="navbar-nav nav-pills ms-auto">
                 <li class="nav-item"><a class="nav-link active text-dark  fw-bold m-1  bg-body-tertiary" href="signUp">Sign Up</a></li>
                 <li class="nav-item"><a class="nav-link active text-dark  fw-bold m-1  bg-body-tertiary" href="signInPage">Sign In</a></li>
@@ -48,16 +50,21 @@
             <h5 class="card-title text-center fs-2 fw-bold text-uppercase">Sign In</h5><br>
             <form action="signIn" method="post">
 
-                <div class="col-md-12">
+                <div class="col-md-12  d-flex">
+                    <div class="col-md-10">
                     <label for="email" class="form-label fs-6 fw-semibold">Email <span class="text-danger">*</span></label>
                     <input type="email" class="form-control" id="email" name="userEmail" placeholder="Enter your email id" onblur="validateUserEmail();enableSubmit();">
+                    </div>
+                    <div class="col-12 mt-4 pt-1">
+                    <button type="submit" class="btn btn-primary fs-6 fw-semibold text-uppercase ms-2" id="sendOTP">Send OTP</button>
+                    </div>
                     <span id="emailError" class="text-danger fw-bold"></span>
                 </div>
                 <br>
                 <div class="col-md-12">
                     <label for="otp" class="form-label fs-6 fw-semibold">OTP <span class="text-danger">*</span></label>
                     <input type="number" class="form-control" id="otp" name="otp" placeholder="Enter otp" onblur="validatePassword();enableSubmit();">
-                    <span id="passwordError" class="text-danger fw-bold"></span>
+                    <span id="otpError" class="text-danger fw-bold"></span>
                 </div>
                 <br>
                 <div class="col-12 d-flex justify-content-center p-3">
