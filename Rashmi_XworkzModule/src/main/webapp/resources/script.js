@@ -91,7 +91,7 @@ function validateAddress() {
         error.textContent = "Address is required";
         return false;
     }else if(name.value.length<5){
-     error.textContent = " Address must be more than 5 characters";
+     error.textContent = "Address must be more than 5 characters";
     } else {
         error.textContent = "";
         return true;

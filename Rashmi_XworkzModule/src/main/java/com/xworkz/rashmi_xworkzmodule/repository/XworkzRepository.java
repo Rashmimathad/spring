@@ -12,4 +12,8 @@ public interface XworkzRepository {
     int getCount(String email);
 
     void setCountToZero(String email);
+
+    boolean checkUserExistsByEmail(String userEmail);
+
+    boolean checkUserExistsByPhone(String phoneNumber);
 }

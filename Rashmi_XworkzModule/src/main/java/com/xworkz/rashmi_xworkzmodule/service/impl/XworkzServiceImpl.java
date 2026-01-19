@@ -3,6 +3,7 @@ package com.xworkz.rashmi_xworkzmodule.service.impl;
 import com.xworkz.rashmi_xworkzmodule.dto.UserDTO;
 import com.xworkz.rashmi_xworkzmodule.entity.UserEntity;
 import com.xworkz.rashmi_xworkzmodule.exceptions.DataInvalidException;
+import com.xworkz.rashmi_xworkzmodule.exceptions.UserAlreadyExistsException;
 import com.xworkz.rashmi_xworkzmodule.exceptions.UserNotFounException;
 import com.xworkz.rashmi_xworkzmodule.repository.XworkzRepository;
 import com.xworkz.rashmi_xworkzmodule.service.XworkzService;
@@ -24,34 +25,7 @@ public class XworkzServiceImpl implements XworkzService {
 
         boolean isValidated = false;
 
-        if (userDTO==null){
-            System.err.println("Failed to save data");
-            throw new DataInvalidException("Failed to Save data");
-        }else if (userDTO.getUserName()==null||userDTO.getUserName().isEmpty()){
-            System.err.println("Invalid User Name");
-            throw new DataInvalidException("Invalid User Name");
-        } else if (userDTO.getUserEmail()==null||userDTO.getUserEmail().isEmpty()) {
-            System.err.println("Invalid user email");
-            throw new DataInvalidException("Invalid User Email");
-        }  else if (userDTO.getPhoneNumber()==null||userDTO.getPhoneNumber().isEmpty()) {
-            System.err.println("Invalid Phone Number");
-            throw new DataInvalidException("Invalid Phone Number");
-        } else if (userDTO.getAge()<18) {
-            System.err.println("Invalid Age");
-            throw new DataInvalidException("Invalid Age");
-        } else if (userDTO.getGender()==null||userDTO.getGender().isEmpty()) {
-            System.err.println("Invalid Gender");
-            throw new DataInvalidException("Please Select gender");
-        } else if (userDTO.getAddress()==null||userDTO.getAddress().isEmpty()) {
-            System.err.println("Invalid Address");
-            throw new DataInvalidException("Invalid Address");
-        }else if (userDTO.getPassword()==null||userDTO.getPassword().isEmpty()){
-            System.err.println("Invalid Password");
-            throw new DataInvalidException("Invalid Password");
-        }else if (userDTO.getConfirmPassword()==null||userDTO.getConfirmPassword().isEmpty()){
-            System.err.println("Re-enter the Password");
-            throw new DataInvalidException("Re-enter the Password");
-        } else if (!userDTO.getConfirmPassword().equals(userDTO.getPassword())) {
+       if (!userDTO.getConfirmPassword().equals(userDTO.getPassword())) {
             System.err.println("Password does not match");
             throw new DataInvalidException("Password does not match");
         }else {
@@ -121,5 +95,22 @@ public class XworkzServiceImpl implements XworkzService {
     @Override
     public void setCountToZero(String email) {
         xworkzRepository.setCountToZero(email);
+    }
+
+    @Override
+    public boolean checkUserExistsByEmail(String userEmail) {
+        boolean isUserExists=false;
+        isUserExists = xworkzRepository.checkUserExistsByEmail(userEmail);
+        if (isUserExists) throw new UserAlreadyExistsException("Email Already Exists");
+        return isUserExists;
+    }
+
+
+    @Override
+    public boolean checkUserExistsByPhone(String phoneNumber) {
+        boolean isUserExists=false;
+        isUserExists = xworkzRepository.checkUserExistsByPhone(phoneNumber);
+        if (isUserExists) throw new UserAlreadyExistsException("Contact Number Already Exists");
+        return isUserExists;
     }
 }

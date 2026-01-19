@@ -1,5 +1,8 @@
 <!doctype html>
-<html lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isELIgnored="false" %>
+<html lang="en" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -63,28 +66,31 @@
 <div class="container-fluid vh-100 d-flex justify-content-end align-items-center">
     <div class="card shadow p-3 mb-5 bg-body-tertiary rounded me-4" style="width: 40rem;">
         <div class="card-body">
+            <c:if test="${not empty errorMsg}">
+                <p class="text-center fs-4 fw-bold text-uppercase text-danger">${ errorMsg }</p>
+            </c:if>
             <h5 class="card-title text-center fs-2 fw-bold text-uppercase">Sign Up</h5><br>
             <form class="row g-3" action="registerUser" method="post">
                 <div class="col-md-6">
                     <label for="name" class="form-label fs-6 fw-semibold">Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="name" name="userName" placeholder="Enter your name" onchange="validateUserName();enableSubmit();">
-                    <span id="nameError" class="text-danger fw-bold"></span>
+                    <span id="nameError" class="text-danger fw-bold">${userNameError}</span>
                 </div>
 
                 <div class="col-md-6">
                     <label for="email" class="form-label fs-6 fw-semibold">Email <span class="text-danger">*</span></label>
                     <input type="email" class="form-control" id="email" name="userEmail" placeholder="Enter your email id" onchange="validateUserEmail();enableSubmit();">
-                    <span id="emailError" class="text-danger fw-bold"></span>
+                    <span id="emailError" class="text-danger fw-bold">${userEmailError}</span>
                 </div>
                 <div class="col-6">
                     <label for="phoneNumber" class="form-label fs-6 fw-semibold">Phone Number <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="phoneNumber"  name="phoneNumber" placeholder="+91 8952162632" onchange="validatePhoneNumber();enableSubmit();">
-                    <span id="phoneNumberError" class="text-danger fw-bold"></span>
+                    <span id="phoneNumberError" class="text-danger fw-bold">${phoneNumberError}</span>
                 </div>
                 <div class="col-md-6">
                     <label for="age" class="form-label fs-6 fw-semibold">Age <span class="text-danger">*</span></label>
                     <input type="number" class="form-control" id="age" name="age" placeholder="Enter your age" onchange="validateAge();enableSubmit();">
-                    <span id="ageError" class="text-danger fw-bold"></span>
+                    <span id="ageError" class="text-danger fw-bold">${ageError}</span>
                 </div>
 
                 <div class="col-md-4">
@@ -95,33 +101,34 @@
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
                     </select>
-                    <span id="genderError" class="text-danger fw-bold"></span>
+                    <span id="genderError" class="text-danger fw-bold">${genderError}</span>
                 </div>
 
                 <div class="col-md-8">
                     <label for="address" class="form-label fs-6 fw-semibold">Address <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="address" name="address" placeholder="Enter your address" onchange="validateAddress();enableSubmit();">
-                    <span id="addressError" class="text-danger fw-bold"></span>
+                    <span id="addressError" class="text-danger fw-bold">${addressError}</span>
                 </div>
 
                 <div class="col-md-6">
                     <label for="password" class="form-label fs-6 fw-semibold">Password <span class="text-danger">*</span></label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" onchange="validatePassword();enableSubmit();">
-                    <span id="passwordError" class="text-danger fw-bold"></span>
+                    <span id="passwordError" class="text-danger fw-bold">${passwordError}</span>
                 </div>
                 <div class="col-md-6">
                     <label for="confirmPassword" class="form-label fs-6 fw-semibold">Confirm Password <span class="text-danger">*</span></label>
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Re-enter the Password" onchange="validateConfirmPassword();enableSubmit();">
-                    <span id="confirmPasswordError" class="text-danger fw-bold"></span>
+                    <span id="confirmPasswordError" class="text-danger fw-bold">${confirmPasswordError}</span>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center p-3">
-                    <button type="submit" class="btn btn-primary fs-5 fw-semibold text-uppercase" id="signUpBtn" disabled>Sign Up</button>
+                    <button type="submit" class="btn btn-primary fs-5 fw-semibold text-uppercase" id="signUpBtn" >Sign Up</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<script src="<%= request.getContextPath() %>/resources/script.js"></script>
+
+<!--<script src="<%= request.getContextPath() %>/resources/script.js"></script>-->
 </body>
 </html>

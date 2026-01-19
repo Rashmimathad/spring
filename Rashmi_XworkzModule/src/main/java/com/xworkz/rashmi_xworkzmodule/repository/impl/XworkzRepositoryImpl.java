@@ -89,4 +89,35 @@ public class XworkzRepositoryImpl implements XworkzRepository {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean checkUserExistsByEmail(String userEmail) {
+        boolean isUserExists = false;
+
+            EntityManager entityManager = factory.createEntityManager();
+            entityManager.getTransaction().begin();
+            Query query = entityManager.createNamedQuery("checkUserExistsByEmail");
+            int count = (int)query.setParameter("email",userEmail).getSingleResult();
+            if (count>0){
+                isUserExists=true;
+            }
+
+
+        return isUserExists;
+    }
+
+    @Override
+    public boolean checkUserExistsByPhone(String phoneNumber) {
+        boolean isUserExists = false;
+
+            EntityManager entityManager = factory.createEntityManager();
+            entityManager.getTransaction().begin();
+            Query query = entityManager.createNamedQuery("checkUserExistsByPhone");
+            int count = (int)query.setParameter("phNo",phoneNumber).getSingleResult();
+            if (count>0){
+                isUserExists=true;
+            }
+
+        return isUserExists;
+    }
 }
