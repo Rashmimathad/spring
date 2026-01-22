@@ -7,16 +7,16 @@ import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
 @Component
-public class PasswordEncryption {
+public class PasswordEncryptionUtil {
 
     private static final String ALGORITHM = "AES";
     private static final String SECRET_KEY = "MySecretKey12345";
 
-    private SecretKeySpec getKey() {
+    private static SecretKeySpec getKey() {
         return new SecretKeySpec(SECRET_KEY.getBytes(), ALGORITHM);
     }
 
-    public String encrypt(String data) {
+    public static String encrypt(String data) {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, getKey());
@@ -29,7 +29,7 @@ public class PasswordEncryption {
 
 
 
-    public String decrypt(String encryptedData) {
+    public static String decrypt(String encryptedData) {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, getKey());

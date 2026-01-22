@@ -13,14 +13,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        body {
-       background-image: url('<%= request.getContextPath() %>/resources/images/bgImage.jpg');
-       background-repeat: no-repeat;
-       background-size: cover;
-       background-position: center;
-       backdrop-filter: blur(7px);
-      }
-
 
     .navbar-nav .nav-link:hover {
         color: #fd7e14 !important;
@@ -63,7 +55,7 @@
     </div>
 </nav>
 
-<div class="container-fluid vh-100 d-flex justify-content-end align-items-center">
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
     <div class="card shadow p-3 mb-5 bg-body-tertiary rounded me-4" style="width: 40rem;">
         <div class="card-body">
             <c:if test="${not empty errorMsg}">
@@ -73,29 +65,29 @@
             <form class="row g-3" action="registerUser" method="post">
                 <div class="col-md-6">
                     <label for="name" class="form-label fs-6 fw-semibold">Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="name" name="userName" placeholder="Enter your name" onchange="validateUserName();enableSubmit();">
+                    <input type="text" class="form-control" id="name" name="userName" placeholder="Enter your name" onchange="validateUserName()">
                     <span id="nameError" class="text-danger fw-bold">${userNameError}</span>
                 </div>
 
                 <div class="col-md-6">
                     <label for="email" class="form-label fs-6 fw-semibold">Email <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" id="email" name="userEmail" placeholder="Enter your email id" onchange="validateUserEmail();enableSubmit();">
+                    <input type="email" class="form-control" id="email" name="userEmail" placeholder="Enter your email id" onchange="validateUserEmail()">
                     <span id="emailError" class="text-danger fw-bold">${userEmailError}</span>
                 </div>
                 <div class="col-6">
                     <label for="phoneNumber" class="form-label fs-6 fw-semibold">Phone Number <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="phoneNumber"  name="phoneNumber" placeholder="+91 8952162632" onchange="validatePhoneNumber();enableSubmit();">
+                    <input type="text" class="form-control" id="phoneNumber"  name="phoneNumber" placeholder="+918952162632" onchange="validatePhoneNumber()">
                     <span id="phoneNumberError" class="text-danger fw-bold">${phoneNumberError}</span>
                 </div>
                 <div class="col-md-6">
                     <label for="age" class="form-label fs-6 fw-semibold">Age <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" id="age" name="age" placeholder="Enter your age" onchange="validateAge();enableSubmit();">
+                    <input type="number" class="form-control" id="age" name="age" placeholder="Enter your age" onchange="validateAge()">
                     <span id="ageError" class="text-danger fw-bold">${ageError}</span>
                 </div>
 
                 <div class="col-md-4">
                     <label for="gender" class="form-label fs-6 fw-semibold">Gender <span class="text-danger">*</span></label>
-                    <select id="gender" class="form-select" name="gender"  onchange="validateGender();enableSubmit();">
+                    <select id="gender" class="form-select" name="gender"  onchange="validateGender()">
                         <option value=" ">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -106,29 +98,29 @@
 
                 <div class="col-md-8">
                     <label for="address" class="form-label fs-6 fw-semibold">Address <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter your address" onchange="validateAddress();enableSubmit();">
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter your address" onchange="validateAddress()">
                     <span id="addressError" class="text-danger fw-bold">${addressError}</span>
                 </div>
 
                 <div class="col-md-6">
                     <label for="password" class="form-label fs-6 fw-semibold">Password <span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" onchange="validatePassword();enableSubmit();">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" onchange="validatePassword()">
                     <span id="passwordError" class="text-danger fw-bold">${passwordError}</span>
                 </div>
                 <div class="col-md-6">
                     <label for="confirmPassword" class="form-label fs-6 fw-semibold">Confirm Password <span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Re-enter the Password" onchange="validateConfirmPassword();enableSubmit();">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Re-enter the Password" onchange="validateConfirmPassword(); enableSubmit();">
                     <span id="confirmPasswordError" class="text-danger fw-bold">${confirmPasswordError}</span>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center p-3">
-                    <button type="submit" class="btn btn-primary fs-5 fw-semibold text-uppercase" id="signUpBtn" >Sign Up</button>
+                    <button type="submit" class="btn btn-primary fs-5 fw-semibold text-uppercase" id="signUpBtn" disabled>Sign Up</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-<!--<script src="<%= request.getContextPath() %>/resources/script.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="<%= request.getContextPath() %>/resources/js/script.js"></script>
 </body>
 </html>

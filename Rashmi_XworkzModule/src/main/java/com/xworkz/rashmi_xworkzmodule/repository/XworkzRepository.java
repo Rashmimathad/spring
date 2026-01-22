@@ -16,4 +16,11 @@ public interface XworkzRepository {
     boolean checkUserExistsByEmail(String userEmail);
 
     boolean checkUserExistsByPhone(String phoneNumber);
+
+    boolean saveOtp(String email,int randomOtp);
+
+
+    int getOtp(String email);
+
+    boolean updatePassword(String email, String newPassword);
 }

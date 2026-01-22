@@ -16,23 +16,36 @@ function validateUserName() {
     return true;
 }
 
-function validateUserEmail() {
-    const email = document.getElementById("email");
-    const error = document.getElementById("emailError");
-
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
-    if (email.value.trim() === "") {
+async function validateUserEmail(){
+const email = document.getElementById("email").value.trim();
+        const error = document.getElementById("emailError");
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+ if (email === "") {
         error.textContent = "Email is required";
         return false;
-    } else if (!emailPattern.test(email.value.trim())) {
+    }
+    else if (!emailPattern.test(email)) {
         error.textContent = "Enter a valid email address which should include @gmail.com";
         return false;
-    } else {
-        error.textContent = "";
-        return true;
+    }else{
+         try{
+                 const response = await axios.get("http://localhost:8087/Rashmi_XworkzModule/checkEmailExists?email="+email);
+                 if(response.data==="Email already exists"){
+                 error.textContent=response.data;
+                 return false;
+                 }
+             }catch(e){
+                 console.error(e);
+                 error.textContent="Server Error";
+                 return false;
+             }
+         }
+     error.textContent = "";
+     return true;
+
     }
-}
+
+
 
 function validatePhoneNumber() {
     let phone = document.getElementById("phoneNumber");
@@ -44,14 +57,13 @@ function validatePhoneNumber() {
         error.textContent = "Phone number is required";
         return false;
     }
-    else if (!pattern.test(phone.value.trim())) {
+    else  if (!pattern.test(phone.value.trim())) {
         error.textContent = "Enter valid number (ex: +919876543210)";
         return false;
     }
-    else {
         error.textContent = "";
         return true;
-    }
+
 }
 
 function validateAge() {
@@ -61,13 +73,15 @@ function validateAge() {
     if (name.value.trim() === "") {
         error.textContent = "Age is required";
         return false;
-    }else if(name.value<18){
-         error.textContent = "Age must be greater than 18";
     }
-     else {
+     if(name.value<18){
+         error.textContent = "Age must be greater than 18";
+         return false;
+    }
+
         error.textContent = "";
         return true;
-    }
+
 }
 
 function validateGender() {
@@ -77,10 +91,10 @@ function validateGender() {
     if (type.value.trim() === "") {
         error.textContent = "Please select Gender";
         return false;
-    } else {
+    }
         error.textContent = "";
         return true;
-    }
+
 }
 
 function validateAddress() {
@@ -90,12 +104,14 @@ function validateAddress() {
     if (name.value.trim() === "") {
         error.textContent = "Address is required";
         return false;
-    }else if(name.value.length<5){
-     error.textContent = "Address must be more than 5 characters";
-    } else {
+    }
+    if(name.value.length<5){
+         error.textContent = "Address must be more than 5 characters";
+         return false;
+    }
         error.textContent = "";
         return true;
-    }
+
 }
 
 
@@ -141,10 +157,10 @@ function validateConfirmPassword() {
     return true;
 }
 
-function enableSubmit() {
+async function enableSubmit() {
     let isValid =
         validateUserName() &&
-         validateUserEmail() &&
+         await validateUserEmail() &&
          validatePhoneNumber() &&
          validateAge()&&
          validateGender()&&
@@ -155,8 +171,4 @@ function enableSubmit() {
     document.getElementById("signUpBtn").disabled = !isValid;
 }
 
-document.getElementById("gender").onkeyup = function () {
-    validateGender();
-    enableSubmit();
-};
 

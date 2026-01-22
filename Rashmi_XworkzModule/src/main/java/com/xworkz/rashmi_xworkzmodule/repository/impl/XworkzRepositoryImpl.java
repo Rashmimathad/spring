@@ -24,6 +24,7 @@ public class XworkzRepositoryImpl implements XworkzRepository {
             entityManager.persist(userEntity);
             entityManager.getTransaction().commit();
             isSaved=true;
+            entityManager.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,11 +39,12 @@ public class XworkzRepositoryImpl implements XworkzRepository {
             Query query = entityManager.createNamedQuery("checkUserExists");
             query.setParameter("email",email);
             password = (String) query.getSingleResult();
-            return password;
+            entityManager.close();
+
         } catch (NoResultException e) {
          e.printStackTrace();
-         return null;
         }
+        return password;
     }
 
 
@@ -57,6 +59,7 @@ public class XworkzRepositoryImpl implements XworkzRepository {
              int rowsAffected = query.executeUpdate();
             System.out.println(rowsAffected);
             entityManager.getTransaction().commit();
+            entityManager.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,6 +72,7 @@ public class XworkzRepositoryImpl implements XworkzRepository {
             EntityManager entityManager = factory.createEntityManager();
             Query query = entityManager.createNamedQuery("getCount");
             count = (int) query.setParameter("eMail", email).getSingleResult();
+            entityManager.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,6 +89,7 @@ public class XworkzRepositoryImpl implements XworkzRepository {
             int rowsAffected = query.executeUpdate();
             System.out.println(rowsAffected);
             entityManager.getTransaction().commit();
+            entityManager.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,31 +98,88 @@ public class XworkzRepositoryImpl implements XworkzRepository {
     @Override
     public boolean checkUserExistsByEmail(String userEmail) {
         boolean isUserExists = false;
-
-            EntityManager entityManager = factory.createEntityManager();
-            entityManager.getTransaction().begin();
-            Query query = entityManager.createNamedQuery("checkUserExistsByEmail");
-            int count = (int)query.setParameter("email",userEmail).getSingleResult();
-            if (count>0){
-                isUserExists=true;
-            }
-
-
+try {
+    EntityManager entityManager = factory.createEntityManager();
+    entityManager.getTransaction().begin();
+    Query query = entityManager.createNamedQuery("checkUserExistsByEmail");
+    int count = (int) query.setParameter("email", userEmail).getSingleResult();
+    if (count > 0) {
+        isUserExists = true;
+    }
+entityManager.close();
+} catch (Exception e) {
+    e.printStackTrace();
+}
         return isUserExists;
     }
 
     @Override
     public boolean checkUserExistsByPhone(String phoneNumber) {
         boolean isUserExists = false;
+        try {
+            EntityManager entityManager = factory.createEntityManager();
+            Query query = entityManager.createNamedQuery("checkUserExistsByPhone");
+            int count = (int) query.setParameter("phNo", phoneNumber).getSingleResult();
+            if (count > 0) {
+                isUserExists = true;
+            }
+            entityManager.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } return isUserExists;
+    }
 
+    @Override
+    public boolean saveOtp(String email, int randomOtp) {
+        boolean isOtpSaved=false;
+        try {
             EntityManager entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
-            Query query = entityManager.createNamedQuery("checkUserExistsByPhone");
-            int count = (int)query.setParameter("phNo",phoneNumber).getSingleResult();
-            if (count>0){
-                isUserExists=true;
+            Query query = entityManager.createNamedQuery("saveOtpByEmail");
+            int count =  query.setParameter("email", email).setParameter("otp",randomOtp).executeUpdate();
+            if (count > 0) {
+                isOtpSaved = true;
             }
-
-        return isUserExists;
+            entityManager.getTransaction().commit();
+            entityManager.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isOtpSaved;
     }
+
+    @Override
+    public int getOtp(String email) {
+        int otpFromDb =0;
+        try {
+            EntityManager entityManager = factory.createEntityManager();
+            Query query = entityManager.createNamedQuery("getOTPByEmail");
+            otpFromDb =  (int)query.setParameter("email", email).getSingleResult();
+            entityManager.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return otpFromDb;
+    }
+
+    @Override
+    public boolean updatePassword(String email, String newPassword) {
+        boolean isPwdUpdated =false;
+        try {
+            EntityManager entityManager = factory.createEntityManager();
+            entityManager.getTransaction().begin();
+            Query query = entityManager.createNamedQuery("updatePassword");
+            int count =  query.setParameter("email", email).setParameter("nPwd",newPassword).executeUpdate();
+            if (count > 0) {
+                isPwdUpdated = true;
+            }
+            entityManager.getTransaction().commit();
+            entityManager.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isPwdUpdated;
+    }
+
+
 }

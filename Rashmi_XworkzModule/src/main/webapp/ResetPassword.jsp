@@ -38,7 +38,6 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ps-5 ms-5">
                 <li class="nav-item">
@@ -62,42 +61,44 @@
     </div>
 </nav>
 
-<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
-    <div class="card shadow p-3 mb-5 bg-body-tertiary rounded me-4" style="width: 40rem;">
-        <div class="card-body">
-            <h5 class="card-title text-center fs-2 fw-bold text-uppercase">Verify & Login</h5><br>
-            <form action="sendOtp" method="post">
+<div class="container-fluid d-flex align-items-center"
+     style="height: calc(100vh - 100px);">
 
-                <div class="col-md-12  d-flex">
-                    <div class="col-md-10">
-                    <label for="email" class="form-label fs-6 fw-semibold">Email <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="email" name="userEmail" placeholder="Enter your email id" value="${email}">
+    <div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+        <div class="card shadow p-3 mb-5 bg-body-tertiary rounded me-4" style="width: 40rem;">
+            <div class="card-body">
+                <h5 class="card-title text-center fs-2 fw-bold text-uppercase">Sign In</h5><br>
+                <form action="resetPassword" method="post">
+                    <div class="col-md-12">
+                        <label for="userEmail" class="form-label fs-6 fw-semibold">Email <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="userEmail" name="userEmail" placeholder="Enter your email id" value="${email}" readonly="readonly">
+                        <span id="emailError" class="text-danger fw-bold">${ emailError }</span>
                     </div>
-                    <div class="col-12 mt-4 pt-1">
-                    <button type="submit" class="btn btn-primary fs-6 fw-semibold text-uppercase ms-2" id="sendOTP">Send OTP</button>
+                    <br>
+                    <div class="col-md-12">
+                        <label for="newPassword" class="form-label fs-6 fw-semibold">New Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Enter password" onblur="validatePassword();enableSubmit();">
+                        <span id="passwordError" class="text-danger fw-bold">${ passwordError }</span>
                     </div>
-                    <span id="emailError" class="text-danger fw-bold"></span>
-                </div>
-                <br>
-            </form>
-            <form action="verifyOtp" method="post">
-                <input type="text" class="form-control" id="email1" name="userEmail" placeholder="Enter your email id" value="${email}" hidden="hidden">
-                <div class="col-md-12">
-                    <label for="otp" class="form-label fs-6 fw-semibold">OTP <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" id="otp" name="otp" placeholder="Enter otp" onblur="validatePassword();enableSubmit();">
-                    <span id="otpError" class="text-danger fw-bold"></span>
-                    <c:if test="${not empty invalidOtp}">
-                        <small class="text-center fs-6 fw-bold  text-danger">${ invalidOtp }</small>
+                    <br>
+                    <div class="col-md-12">
+                        <label for="confirmPassword" class="form-label fs-6 fw-semibold">Confirm Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password" onblur="validateConfirmPassword();enableSubmit();">
+                        <span id="confirmPasswordError" class="text-danger fw-bold">${ confirmPasswordError }</span>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center p-3">
+                        <button type="submit"  class="btn btn-primary fs-5 fw-semibold text-uppercase" id="signInBtn">Change Password</button>
+                    </div>
+                    <c:if test="${not empty errorMsg}">
+                        <p class="text-center fs-4 fw-bold text-uppercase text-danger">${ errorMsg }</p>
                     </c:if>
-                </div>
-                <br>
-                <div class="col-12 d-flex justify-content-center p-3">
-                    <button type="submit" class="btn btn-primary fs-5 fw-semibold text-uppercase" id="signInBtn">Reset Password</button>
-                </div>
-            </form>
+
+
+                </form>
+            </div>
         </div>
     </div>
 </div>
-<script src="<%= request.getContextPath() %>/resources/js/SignInOTP.js"></script>
+<script src="<%= request.getContextPath() %>/resources/js/ResetPassword.js"></script>
 </body>
 </html>

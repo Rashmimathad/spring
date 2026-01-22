@@ -64,7 +64,7 @@
 <div class="container-fluid d-flex align-items-center"
      style="height: calc(100vh - 100px);">
 
-<div class="container-fluid vh-100 d-flex justify-content-end align-items-center">
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
     <div class="card shadow p-3 mb-5 bg-body-tertiary rounded me-4" style="width: 40rem;">
         <div class="card-body">
             <h5 class="card-title text-center fs-2 fw-bold text-uppercase">Sign In</h5><br>
@@ -72,7 +72,7 @@
 
                 <div class="col-md-12">
                     <label for="email" class="form-label fs-6 fw-semibold">Email <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" id="email" name="userEmail" placeholder="Enter your email id" value="${userEmail}" validateUserEmail();enableSubmit();">
+                    <input type="email" class="form-control" id="email" name="userEmail" placeholder="Enter your email id" value="${userEmail}">
                     <span id="emailError" class="text-danger fw-bold"></span>
                 </div>
                 <br>
@@ -88,8 +88,11 @@
                 <c:if test="${not empty errorMsg}">
                     <p class="text-center fs-4 fw-bold text-uppercase text-danger">${ errorMsg }</p>
                 </c:if>
+                <c:if test="${not empty loginAttemptsMsg}">
+                    <p class="text-center fs-5 fw-semibold text-danger">${ loginAttemptsMsg }</p>
+                </c:if>
                 <div class="col-12 d-flex justify-content-center p-3">
-                    <a href="signInWithOTP"  class="fs-4" <c:if test="${!showForgot}">hidden</c:if>>forgot password?</a>
+                    <a href="sendOtp"  class="fs-4" <c:if test="${!showForgot}">hidden</c:if>>forgot password?</a>
                 </div>
 
             </form>
@@ -97,6 +100,6 @@
     </div>
 </div>
 </div>
-<script src="<%= request.getContextPath() %>/resources/SignInScript.js"></script>
+<script src="<%= request.getContextPath() %>/resources/js/SignInScript.js"></script>
 </body>
 </html>

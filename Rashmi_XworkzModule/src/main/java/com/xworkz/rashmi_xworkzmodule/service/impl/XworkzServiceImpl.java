@@ -7,10 +7,13 @@ import com.xworkz.rashmi_xworkzmodule.exceptions.UserAlreadyExistsException;
 import com.xworkz.rashmi_xworkzmodule.exceptions.UserNotFounException;
 import com.xworkz.rashmi_xworkzmodule.repository.XworkzRepository;
 import com.xworkz.rashmi_xworkzmodule.service.XworkzService;
-import com.xworkz.rashmi_xworkzmodule.util.PasswordEncryption;
+import com.xworkz.rashmi_xworkzmodule.util.PasswordEncryptionUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Service
 public class XworkzServiceImpl implements XworkzService {
@@ -18,32 +21,18 @@ public class XworkzServiceImpl implements XworkzService {
     @Autowired
     private XworkzRepository xworkzRepository;
 
-    @Autowired
-    private PasswordEncryption passwordEncryption;
 
-    public boolean validateUserInfo(UserDTO userDTO) throws DataInvalidException {
 
-        boolean isValidated = false;
 
-       if (!userDTO.getConfirmPassword().equals(userDTO.getPassword())) {
-            System.err.println("Password does not match");
-            throw new DataInvalidException("Password does not match");
-        }else {
-            isValidated=true;
-
-        }
-        return isValidated;
-    }
 
     @Override
     public boolean validateAndSave(UserDTO userDTO) throws DataInvalidException {
 
         System.out.println("User Info received from Jsp : "+userDTO);
         boolean isSaved = false;
-        boolean isValidated = validateUserInfo(userDTO);
-        if (isValidated){
+        if (userDTO.getConfirmPassword().equals(userDTO.getPassword())){
 
-          String encryptedPassword =  passwordEncryption.encrypt(userDTO.getPassword());
+          String encryptedPassword =  PasswordEncryptionUtil.encrypt(userDTO.getPassword());
             System.out.println("Encrypted Password : "+encryptedPassword);
             userDTO.setPassword(encryptedPassword);
 
@@ -70,7 +59,7 @@ public class XworkzServiceImpl implements XworkzService {
 
             String pwd =xworkzRepository.checkUser(email);
             if (pwd !=null&&!pwd.isEmpty()) {
-                String decryptedPassword = passwordEncryption.decrypt(pwd);
+                String decryptedPassword = PasswordEncryptionUtil.decrypt(pwd);
                 if (decryptedPassword.equals(password)) {
                     isUserExists = true;
                 }else{
@@ -101,7 +90,7 @@ public class XworkzServiceImpl implements XworkzService {
     public boolean checkUserExistsByEmail(String userEmail) {
         boolean isUserExists=false;
         isUserExists = xworkzRepository.checkUserExistsByEmail(userEmail);
-        if (isUserExists) throw new UserAlreadyExistsException("Email Already Exists");
+        if (isUserExists) isUserExists=true;
         return isUserExists;
     }
 
@@ -113,4 +102,36 @@ public class XworkzServiceImpl implements XworkzService {
         if (isUserExists) throw new UserAlreadyExistsException("Contact Number Already Exists");
         return isUserExists;
     }
+
+    @Override
+    public boolean saveOtp(String email, int randomOtp) {
+        if (randomOtp!=0) {
+            System.out.println("Is OTP Saved : " + xworkzRepository.saveOtp(email, randomOtp));
+            return xworkzRepository.saveOtp(email, randomOtp);
+        }
+        else return false;
+    }
+
+    @Override
+    public boolean verifyOtp(String email, int otp) {
+        int otpFromDb=  xworkzRepository.getOtp(email);
+        if (otpFromDb==otp) {
+            System.out.println("Otp matched");
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updatePassword(String email, String newPassword,  String confirmPassword) {
+        boolean isUpdated = false;
+        if (newPassword.equals(confirmPassword)){
+          String encryptedPassword =  PasswordEncryptionUtil.encrypt(newPassword);
+            System.out.println("Encrypted New Password : "+encryptedPassword);
+          isUpdated =  xworkzRepository.updatePassword(email,encryptedPassword);
+        }
+        return isUpdated;
+    }
+
+
 }
