@@ -4,6 +4,7 @@ import com.xworkz.rashmi_xworkzmodule.dto.UserDTO;
 import com.xworkz.rashmi_xworkzmodule.exceptions.DataInvalidException;
 import com.xworkz.rashmi_xworkzmodule.exceptions.UserAlreadyExistsException;
 import com.xworkz.rashmi_xworkzmodule.exceptions.UserNotFounException;
+import com.xworkz.rashmi_xworkzmodule.service.EmailService;
 import com.xworkz.rashmi_xworkzmodule.service.XworkzService;
 import com.xworkz.rashmi_xworkzmodule.util.OTPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class XworkzModuleController {
     private XworkzService xworkzService;
 
     @Autowired
-    private OTPUtil otpUtil;
+    private EmailService emailService;
 
     @RequestMapping("/index")
     public String getIndexPage() {
@@ -162,16 +163,13 @@ public class XworkzModuleController {
     @PostMapping("/sendOtp")
     public ModelAndView sendOtp(@RequestParam("userEmail") String email, ModelAndView model) {
         System.out.println("User entered email : " + email);
-        Random randomNumber = new Random();
-        int randomOtp = randomNumber.nextInt(999999) + 100000;
-        System.out.println("Random generated otp : " + randomOtp);
-
+        int randomOtp = OTPUtil.getRandomOtp();
         boolean isOtpSaved = xworkzService.saveOtp(email, randomOtp);
         if (isOtpSaved) {
             model.addObject("email", email);
             String subject = "OTP Details";
             String text = "Your OTP for verification is: " + randomOtp;
-            otpUtil.sendSimpleMessage(email, subject, text);
+            emailService.sendSimpleMessage(email, subject, text);
             model.setViewName("SignInWithOTP");
         } else {
             model.addObject("email", email);
@@ -198,7 +196,7 @@ public class XworkzModuleController {
     }
 
     @PostMapping("/resetPassword")
-    public ModelAndView resetPassword( @RequestParam("userEmail")String email, @RequestParam("newPassword")String newPassword, @RequestParam("confirmPassword")String confirmPassword,BindingResult bindingResult,ModelAndView model){
+    public ModelAndView resetPassword( @RequestParam("userEmail")String email, @RequestParam("newPassword")String newPassword, @RequestParam("confirmPassword")String confirmPassword,ModelAndView model){
 
        boolean isUpdated =  xworkzService.updatePassword(email,newPassword,confirmPassword);
         System.out.println("Is Password Updated : "+isUpdated);

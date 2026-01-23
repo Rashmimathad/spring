@@ -1,9 +1,13 @@
 package com.xworkz.rashmi_xworkzmodule.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.web.servlet.ViewResolver;
@@ -19,11 +23,41 @@ import java.util.Properties;
 @Configuration
 @ComponentScan(basePackages = "com.xworkz.rashmi_xworkzmodule")
 @EnableWebMvc
+@PropertySource("classpath:application.properties")
 public class XworkzModuleConfiguration implements WebMvcConfigurer {
 
     public XworkzModuleConfiguration(){
         System.out.println("XworkzModuleConfiguration created");
     }
+
+
+    @Value("${mail.host}")
+    private String host;
+
+    @Value("${mail.port}")
+    private int port;
+
+    @Value("${mail.username}")
+    private String username;
+
+    @Value("${mail.password}")
+    private String password;
+
+    @Value("${mail.smtp.auth}")
+    private boolean auth;
+
+    @Value("${mail.smtp.starttls.enable}")
+    private boolean starttls;
+
+    @Value("${mail.smtp.connectiontimeout}")
+    private int connectionTimeout;
+
+    @Value("${mail.smtp.timeout}")
+    private int timeout;
+
+    @Value("${mail.smtp.writetimeout}")
+    private int writeTimeout;
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -65,5 +99,26 @@ public class XworkzModuleConfiguration implements WebMvcConfigurer {
         viewResolver.setPrefix("/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
+    }
+
+
+
+    @Bean
+    public JavaMailSender javaMailSender() {
+
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost(host);
+        mailSender.setPort(port);
+        mailSender.setUsername(username);
+        mailSender.setPassword(password);
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.smtp.auth", auth);
+        props.put("mail.smtp.starttls.enable", starttls);
+        props.put("mail.smtp.connectiontimeout", connectionTimeout);
+        props.put("mail.smtp.timeout", timeout);
+        props.put("mail.smtp.writetimeout", writeTimeout);
+
+        return mailSender;
     }
 }

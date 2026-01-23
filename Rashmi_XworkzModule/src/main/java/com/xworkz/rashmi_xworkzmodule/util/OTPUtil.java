@@ -5,20 +5,16 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.util.Random;
+
+
 public class OTPUtil {
 
-    @Autowired
-    JavaMailSender emailSender;
-
-    public void sendSimpleMessage(String to, String subject, String text) {
-
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("rashmimathad6@gmail.com");
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
-        emailSender.send(message);
-
+    public  static int getRandomOtp() {
+        Random randomNumber = new Random();
+        int randomOtp = randomNumber.nextInt(999999) + 100000;
+        System.out.println("Random generated otp : " + randomOtp);
+        return randomOtp;
     }
+
 }
