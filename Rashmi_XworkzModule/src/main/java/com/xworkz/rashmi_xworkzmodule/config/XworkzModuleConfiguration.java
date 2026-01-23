@@ -49,15 +49,6 @@ public class XworkzModuleConfiguration implements WebMvcConfigurer {
     @Value("${mail.smtp.starttls.enable}")
     private boolean starttls;
 
-    @Value("${mail.smtp.connectiontimeout}")
-    private int connectionTimeout;
-
-    @Value("${mail.smtp.timeout}")
-    private int timeout;
-
-    @Value("${mail.smtp.writetimeout}")
-    private int writeTimeout;
-
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -115,9 +106,7 @@ public class XworkzModuleConfiguration implements WebMvcConfigurer {
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.smtp.auth", auth);
         props.put("mail.smtp.starttls.enable", starttls);
-        props.put("mail.smtp.connectiontimeout", connectionTimeout);
-        props.put("mail.smtp.timeout", timeout);
-        props.put("mail.smtp.writetimeout", writeTimeout);
+
 
         return mailSender;
     }
