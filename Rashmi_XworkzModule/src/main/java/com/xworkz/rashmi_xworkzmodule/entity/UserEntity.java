@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -20,9 +21,10 @@ import javax.persistence.*;
         @NamedQuery(name = "setCountToZero",query = "update UserEntity user set user.count=0 where user.userEmail=:eMail"),
         @NamedQuery(name = "checkUserExistsByEmail",query="select 1 from UserEntity user where user.userEmail=:email"),
         @NamedQuery(name = "checkUserExistsByPhone",query = "select 1 from UserEntity user where user.phoneNumber=:phNo"),
-        @NamedQuery(name = "saveOtpByEmail",query = "update UserEntity user set user.otp=:otp where user.userEmail=:email"),
+        @NamedQuery(name = "saveOtpByEmail",query = "update UserEntity user set user.otp=:otp , user.otpSentTime=:time where user.userEmail=:email"),
         @NamedQuery(name = "getOTPByEmail",query = "select user.otp from UserEntity user where user.userEmail=:email"),
-        @NamedQuery(name = "updatePassword",query = "update UserEntity user set user.password=:nPwd where user.userEmail=:email")
+        @NamedQuery(name = "updatePassword",query = "update UserEntity user set user.password=:nPwd where user.userEmail=:email"),
+        @NamedQuery(name = "getOTPSentTime",query = "select user.otpSentTime from UserEntity user where user.userEmail=:email")
 })
 public class UserEntity {
 
@@ -47,4 +49,6 @@ public class UserEntity {
     public int count;
     @Column(name = "otp")
     private int otp;
+    @Column(name = "otp_sent_time")
+    private LocalDateTime otpSentTime;
 }

@@ -6,6 +6,7 @@ import com.xworkz.rashmi_xworkzmodule.exceptions.UserNotFounException;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 public interface XworkzService {
     boolean validateAndSave(UserDTO userDTO) throws DataInvalidException;
@@ -22,7 +23,7 @@ public interface XworkzService {
 
     boolean checkUserExistsByPhone(@NotBlank(message = "Phone number is required") @Pattern(regexp = "^\\+91[6-9]\\d{9}$",message = "Enter valid number (ex: +919876543210)") String phoneNumber);
 
-    boolean saveOtp(String email,int randomOtp);
+    boolean saveOtp(String email, int randomOtp, LocalDateTime otpSentTime);
 
     boolean verifyOtp(String email, int otp);
 
@@ -30,4 +31,6 @@ public interface XworkzService {
     boolean updatePassword(@NotBlank(message = "Email is required") @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@gmail\\.com$",message = "Enter a valid email address which should include @gmail.com" ) String email,  @NotBlank(message = "Password is required")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).+$",message = "Password must contain letters and numbers") String newPassword,   @NotBlank(message = "Password is required")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).+$",message = "Password must contain letters and numbers") String confirmPassword);
+
+    boolean verifyTimings(LocalDateTime otpEnteredTime, String email);
 }

@@ -67,23 +67,38 @@
         <div class="card-body">
             <h5 class="card-title text-center fs-2 fw-bold text-uppercase">Verify & Login</h5><br>
             <form action="sendOtp" method="post">
-
+                <c:if test="${not empty successMsg}">
+                    <p class="text-center fs-5 fw-semibold  text-success">${ successMsg }</p>
+                </c:if>
+                <c:if test="${not empty errorMsg}">
+                    <p class="text-center fs-5 fw-semibold  text-success">${ errorMsg }</p>
+                </c:if>
                 <div class="col-md-12  d-flex">
                     <div class="col-md-10">
-                    <label for="email" class="form-label fs-6 fw-semibold">Email <span class="text-danger">*</span></label>
+                    <label for="email" class="form-label fs-5 fw-semibold">Email <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="email" name="userEmail" placeholder="Enter your email id" value="${email}">
                     </div>
                     <div class="col-12 mt-4 pt-1">
-                    <button type="submit" class="btn btn-primary fs-6 fw-semibold text-uppercase ms-2" id="sendOTP">Send OTP</button>
+                        <button type="submit" class="btn btn-primary fs-6 fw-semibold text-uppercase ms-2" id="sendOTP" <c:if test="${sendOTP}">disabled</c:if>>Send OTP</button>
                     </div>
                     <span id="emailError" class="text-danger fw-bold"></span>
                 </div>
+                <c:if test="${resendOTP > 0}">
+                    <p id="timerWrapper">Resend OTP in <span id="timer" class="text-danger">${resendOTP}</span> seconds</p>
+                </c:if>
                 <br>
+                <a  id="resendBtn"class="link-offset-2 link-underline link-underline-opacity-0 fs-5 fw-bold text-uppercase text-danger"
+                <c:if test="${!canResend}">hidden</c:if>>
+                Resend OTP
+                </a>
             </form>
+
+
             <form action="verifyOtp" method="post">
+
                 <input type="text" class="form-control" id="email1" name="userEmail" placeholder="Enter your email id" value="${email}" hidden="hidden">
                 <div class="col-md-12">
-                    <label for="otp" class="form-label fs-6 fw-semibold">OTP <span class="text-danger">*</span></label>
+                    <label for="otp" class="form-label fs-5 fw-semibold">OTP <span class="text-danger">*</span></label>
                     <input type="number" class="form-control" id="otp" name="otp" placeholder="Enter otp" onblur="validatePassword();enableSubmit();">
                     <span id="otpError" class="text-danger fw-bold"></span>
                     <c:if test="${not empty invalidOtp}">
@@ -99,5 +114,22 @@
     </div>
 </div>
 <script src="<%= request.getContextPath() %>/resources/js/SignInOTP.js"></script>
+<script>
+    let timeLeft = ${resendOTP};
+
+    if (timeLeft > 0) {
+        const timer = document.getElementById("timer");
+
+        const interval = setInterval(() => {
+            timeLeft--;
+            timer.innerText = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                location.reload(); // sync with backend
+            }
+        }, 1000);
+    }
+</script>
 </body>
 </html>

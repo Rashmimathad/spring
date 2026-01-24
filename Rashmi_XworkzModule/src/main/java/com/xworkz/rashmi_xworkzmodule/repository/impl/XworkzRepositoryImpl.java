@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Repository
@@ -130,13 +131,13 @@ entityManager.close();
     }
 
     @Override
-    public boolean saveOtp(String email, int randomOtp) {
+    public boolean saveOtp(String email, int randomOtp, LocalDateTime otpSentTime) {
         boolean isOtpSaved=false;
         try {
             EntityManager entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             Query query = entityManager.createNamedQuery("saveOtpByEmail");
-            int count =  query.setParameter("email", email).setParameter("otp",randomOtp).executeUpdate();
+            int count =  query.setParameter("email", email).setParameter("otp",randomOtp).setParameter("time",otpSentTime).executeUpdate();
             if (count > 0) {
                 isOtpSaved = true;
             }
@@ -179,6 +180,23 @@ entityManager.close();
             e.printStackTrace();
         }
         return isPwdUpdated;
+    }
+
+    @Override
+    public LocalDateTime getOTPSentTime(String email) {
+
+        try {
+            EntityManager entityManager = factory.createEntityManager();
+            entityManager.getTransaction().begin();
+            Query query = entityManager.createNamedQuery("getOTPSentTime");
+            LocalDateTime otpSentTime = (LocalDateTime) query.setParameter("email",email).getSingleResult();
+            entityManager.getTransaction().commit();
+            entityManager.close();
+            return otpSentTime;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return LocalDateTime.now();
     }
 
 

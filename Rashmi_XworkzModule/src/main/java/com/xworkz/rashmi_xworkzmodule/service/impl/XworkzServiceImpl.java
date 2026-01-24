@@ -12,8 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 @Service
 public class XworkzServiceImpl implements XworkzService {
@@ -104,10 +103,10 @@ public class XworkzServiceImpl implements XworkzService {
     }
 
     @Override
-    public boolean saveOtp(String email, int randomOtp) {
+    public boolean saveOtp(String email, int randomOtp, LocalDateTime otpSentTime) {
         if (randomOtp!=0) {
-            System.out.println("Is OTP Saved : " + xworkzRepository.saveOtp(email, randomOtp));
-            return xworkzRepository.saveOtp(email, randomOtp);
+            System.out.println("Is OTP Saved : " + xworkzRepository.saveOtp(email, randomOtp,otpSentTime));
+            return xworkzRepository.saveOtp(email, randomOtp,otpSentTime);
         }
         else return false;
     }
@@ -131,6 +130,16 @@ public class XworkzServiceImpl implements XworkzService {
           isUpdated =  xworkzRepository.updatePassword(email,encryptedPassword);
         }
         return isUpdated;
+    }
+
+    @Override
+    public boolean verifyTimings(LocalDateTime otpEnteredTime, String email) {
+        boolean isTimeOver=false;
+
+        LocalDateTime otpSentTime = xworkzRepository.getOTPSentTime(email);
+        LocalDateTime expiryTime = otpSentTime.plusSeconds(30);
+        if (otpEnteredTime.isAfter(expiryTime)) isTimeOver=true;
+        return isTimeOver;
     }
 
 

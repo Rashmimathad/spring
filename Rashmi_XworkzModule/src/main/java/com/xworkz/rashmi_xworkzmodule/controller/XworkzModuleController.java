@@ -15,8 +15,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.jws.WebParam;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Random;
+import java.time.LocalDateTime;
 
 
 @Controller
@@ -52,6 +54,8 @@ public class XworkzModuleController {
     public String getResetPasswordPage() {
         return "ResetPassword";
     }
+
+    boolean isOTPSent = false;
 
     @PostMapping("/registerUser")
     public ModelAndView registerUser(@Valid UserDTO userDTO, BindingResult bindingResult, ModelAndView model) {
@@ -161,27 +165,35 @@ public class XworkzModuleController {
     }
 
     @PostMapping("/sendOtp")
-    public ModelAndView sendOtp(@RequestParam("userEmail") String email, ModelAndView model) {
+    public ModelAndView sendOtp(@RequestParam("userEmail") String email, HttpSession session, ModelAndView model) {
         System.out.println("User entered email : " + email);
         int randomOtp = OTPUtil.getRandomOtp();
-        boolean isOtpSaved = xworkzService.saveOtp(email, randomOtp);
+        LocalDateTime otpSentTime = LocalDateTime.now();
+        boolean isOtpSaved = xworkzService.saveOtp(email, randomOtp,otpSentTime);
         if (isOtpSaved) {
             model.addObject("email", email);
             String subject = "OTP Details";
             String text = "Your OTP for verification is: " + randomOtp;
-            emailService.sendSimpleMessage(email, subject, text);
-            model.setViewName("SignInWithOTP");
+
+             isOTPSent =  emailService.sendSimpleMessage(email, subject, text);
+           if (isOTPSent) {
+               model.addObject("successMsg", "OTP Sent Successfully!!");
+               model.addObject("resendOTP",30);
+
+               model.setViewName("SignInWithOTP");
+           }else model.addObject("errorMsg","Failed to send OTP, Try again!");
         } else {
             model.addObject("email", email);
         }
+
 
         return model;
     }
 
     @PostMapping("/verifyOtp")
-    public ModelAndView verifyOtp(@RequestParam("otp") int otp, @RequestParam("userEmail") String email, ModelAndView model) {
-
+    public ModelAndView verifyOtp(@RequestParam("otp") int otp, @RequestParam("userEmail") String email, HttpSession session,ModelAndView model) {
         System.out.println("Otp Entered by User : " + otp);
+
         boolean isOtpVerified = xworkzService.verifyOtp(email, otp);
         if (isOtpVerified) {
             model.addObject("email", email);
@@ -206,4 +218,6 @@ public class XworkzModuleController {
         }
         return model;
     }
+
+
 }

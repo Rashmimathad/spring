@@ -16,7 +16,7 @@ public class EmailServiceImpl implements EmailService {
     @Value("${mail.from}")
     private String from;
 
-    public  void sendSimpleMessage(String to, String subject, String text) {
+    public boolean sendSimpleMessage(String to, String subject, String text) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
@@ -25,5 +25,6 @@ public class EmailServiceImpl implements EmailService {
         message.setText(text);
         emailSender.send(message);
 
+        return true;
     }
 }

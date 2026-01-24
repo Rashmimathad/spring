@@ -2,6 +2,8 @@ package com.xworkz.rashmi_xworkzmodule.repository;
 
 import com.xworkz.rashmi_xworkzmodule.entity.UserEntity;
 
+import java.time.LocalDateTime;
+
 public interface XworkzRepository {
     boolean save(UserEntity userEntity);
 
@@ -17,10 +19,12 @@ public interface XworkzRepository {
 
     boolean checkUserExistsByPhone(String phoneNumber);
 
-    boolean saveOtp(String email,int randomOtp);
+    boolean saveOtp(String email, int randomOtp, LocalDateTime otpSentTime);
 
 
     int getOtp(String email);
 
     boolean updatePassword(String email, String newPassword);
+
+    LocalDateTime getOTPSentTime(String email);
 }
